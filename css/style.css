@@ -76,11 +76,11 @@ body:not([data-page=home]) main{padding-top:var(--hh)}
 
 /* ============ hero: the seed story ============ */
 .journey{position:relative;height:330vh;background:var(--soil)}
-.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:linear-gradient(180deg,var(--sky1,#05080a),var(--sky2,#0b100d))}
+.stage{position:sticky;top:0;height:100vh;height:100lvh;overflow:hidden;background:linear-gradient(180deg,var(--sky1,#05080a),var(--sky2,#0b100d))}
 .stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .9s ease}
 .stage.live canvas{opacity:1}
 .shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(6,10,8,.74) 0%,rgba(6,10,8,.34) 38%,transparent 62%),radial-gradient(130% 100% at 62% 48%,transparent 56%,rgba(0,0,0,.42))}
-.ch{position:absolute;inset-inline-start:var(--pad);bottom:13vh;max-width:min(580px,88vw);color:#f6f1e3;opacity:0;transform:translateY(26px);transition:opacity .55s ease,transform .7s cubic-bezier(.2,.7,.2,1);pointer-events:none;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.ch{position:absolute;inset-inline-start:var(--pad);bottom:calc(13vh + var(--tb,0px));max-width:min(580px,88vw);color:#f6f1e3;opacity:0;transform:translateY(26px);transition:opacity .55s ease,transform .7s cubic-bezier(.2,.7,.2,1);pointer-events:none;text-shadow:0 2px 24px rgba(0,0,0,.35)}
 .ch.on{opacity:1;transform:none;pointer-events:auto}
 .ch .k{font:700 12px var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--amber);margin-bottom:16px}
 :lang(ar) .ch .k{letter-spacing:.04em;font-size:15px}
@@ -91,11 +91,11 @@ body:not([data-page=home]) main{padding-top:var(--hh)}
 .dots{position:absolute;inset-inline-end:var(--pad);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px}
 .dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .4s}
 .dots i.on{background:var(--amber);height:30px;border-radius:6px}
-.hint{position:absolute;inset-inline-start:50%;bottom:26px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(246,241,227,.8);font:700 11px var(--sans);letter-spacing:.3em;text-transform:uppercase;transition:opacity .4s}
+.hint{position:absolute;inset-inline-start:50%;bottom:calc(26px + var(--tb,0px));transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(246,241,227,.8);font:700 11px var(--sans);letter-spacing:.3em;text-transform:uppercase;transition:opacity .4s}
 .hint.gone{opacity:0}
 .hint i{width:1px;height:34px;background:linear-gradient(var(--amber),transparent);animation:hint 1.8s ease-in-out infinite}
 @keyframes hint{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-.skipj{position:absolute;inset-inline-end:var(--pad);bottom:24px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;font:700 12px var(--sans);letter-spacing:.06em;padding:10px 16px;border-radius:99px;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.skipj{position:absolute;inset-inline-end:var(--pad);bottom:calc(24px + var(--tb,0px));background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;font:700 12px var(--sans);letter-spacing:.06em;padding:10px 16px;border-radius:99px;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .skipj:hover{background:rgba(255,255,255,.22)}
 .no3d .journey{height:auto}
 .no3d .stage{position:relative;height:auto;min-height:100svh;padding:150px var(--pad) 90px;background:radial-gradient(90% 70% at 70% 30%,#27402f,#0b120d)}
@@ -369,7 +369,7 @@ body:not([data-page=home]) main{padding-top:var(--hh)}
 @media (max-width:640px){
   :root{--hh:64px}
   .journey{height:300vh}
-  .ch{bottom:11vh}
+  .ch{bottom:calc(11vh + var(--tb,0px))}
   .dots{display:none}
   .hq span{display:none}.hq{padding:0 14px}.hq .cnt{margin:0}
   .hq svg{margin:0}
@@ -597,18 +597,17 @@ html{touch-action:pan-x pan-y}
 .ldm button small{font:800 11px var(--sans);letter-spacing:.1em;opacity:.6}
 .ldm button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
 
-/* phones and tablets: logo + language menu in the header, the menu button and the WhatsApp button float within thumb reach */
+/* phones and tablets: language menu on the left, logo in the middle, menu button on the right (same on every page, always fixed); WhatsApp is the floating round button */
+:root{--tb:0px}
+@supports (height:100svh){:root{--tb:calc(100lvh - 100svh)}}
 @media (max-width:1100px){
-  .langdd{display:block}
-  .hdr .hq{display:none}
-  .tools{margin-inline-start:auto}
-  .burger{position:fixed;inset-inline-end:18px;bottom:84px;width:54px;height:54px;z-index:62;border:1px solid rgba(255,255,255,.3);background:var(--ink);color:var(--paper);box-shadow:0 18px 40px -14px rgba(0,0,0,.6)}
-  .burger i{top:26px;inset-inline-start:19px}
+  .hdr{display:grid;grid-template-columns:1fr auto 1fr;gap:10px}
+  .hdr .langdd{display:block;grid-column:1;grid-row:1;justify-self:start}
+  .hdr .brand{grid-column:2;grid-row:1}
+  .hdr .tools,.hdr .nav{display:none}
+  .hdr .burger{display:block;grid-column:3;grid-row:1;justify-self:end}
+  .ldm{inset-inline-start:0;inset-inline-end:auto;transform-origin:top left}
   .burger.open i{transform:rotate(45deg)}.burger.open i::before{top:0;box-shadow:none;transform:rotate(90deg)}
-  body[data-page=quote] .burger{bottom:18px}
-  html.noscroll .burger:not(.open){opacity:0;pointer-events:none}
-  .totop{bottom:150px}.totop.low{bottom:84px}
-  .mnav{overflow-y:auto;padding-bottom:170px}
+  .mnav{overflow-y:auto}
   .skipj{inset-inline-end:auto;inset-inline-start:var(--pad)}
-  .ch{bottom:max(11vh,158px)}
 }

@@ -1,9 +1,9 @@
 /* Catalogue: search (all four languages, accent-insensitive), group / crop / season / growing filters, sort, URL-synced state. */
-import { V, t } from './layout.js';
-import { CATS, CROPS, PRODUCTS, SOW_SEASONS, catName, cropName, norm, haystack } from './data.js';
-import { reveal, tilt, art, unart } from './motion.js';
-import { cardHTML } from './cards.js';
-import { cropState } from './season.js';
+import { V, t } from './layout.js?v=10182307';
+import { CATS, CROPS, PRODUCTS, SOW_SEASONS, catName, cropName, norm, haystack } from './data.js?v=10182307';
+import { reveal, tilt, art, unart } from './motion.js?v=10182307';
+import { cardHTML } from './cards.js?v=10182307';
+import { cropState } from './season.js?v=10182307';
 
 const $ = (s) => document.querySelector(s);
 const grid = $('#grid'), qIn = $('#q'), filters = $('#filters');

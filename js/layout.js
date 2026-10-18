@@ -2,11 +2,11 @@
   Shared chrome: header, mobile menu, footer, language switch (TR / EN / FR / AR, layout always left-to-right), floating quote button.
   Every page loads this first, then its own script. Event: window 'langchange'.
 */
-import { BRAND, markSVG } from './brand.js';
-import { V, t, tl, setLang, applyI18n, LANGS, waLink } from './core.js';
-import { mountFab, openQuote, WA_ICON, Q } from './quote.js';
-import { reveal, tilt, art, REDUCE } from './motion.js';
-import './cursor.js';
+import { BRAND, markSVG } from './brand.js?v=10182307';
+import { V, t, tl, setLang, applyI18n, LANGS, waLink } from './core.js?v=10182307';
+import { mountFab, openQuote, WA_ICON, Q } from './quote.js?v=10182307';
+import { reveal, tilt, art, REDUCE } from './motion.js?v=10182307';
+import './cursor.js?v=10182307';
 
 const PAGE = document.body.dataset.page || 'home';
 const NAV = [['home', 'index.html', 'nav.home'], ['catalog', 'catalog.html', 'nav.catalog'], ['calendar', 'calendar.html', 'nav.calendar'], ['about', 'about.html', 'nav.about']];
@@ -24,16 +24,16 @@ function chrome() {
   if (hdr) hdr.outerHTML = `
   <a class="skip" href="#main" data-i18n="x.skip"></a>
   <header class="hdr ${PAGE === 'home' ? 'over' : ''}" id="hdrbar">
+    <div class="langdd"><button class="ldb" type="button" aria-haspopup="true" aria-expanded="false" data-i18n-aria="nav.lang" aria-label="Language"><span data-lang-cur>TR</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="ldm">${LANGS.map(k => `<button type="button" data-lang="${k}" aria-pressed="false">${NAMES[k]}<small>${k.toUpperCase()}</small></button>`).join('')}</div></div>
     <a class="brand" href="index.html" aria-label="${BRAND.name}">${markSVG()}<span class="bn"><b>${BRAND.name}</b><em>${BRAND.sub}</em></span></a>
     <nav class="nav" aria-label="Main">${NAV.map(([id, href, k]) => `<a href="${href}" ${PAGE === id || (PAGE === 'product' && id === 'catalog') ? 'class="on" aria-current="page"' : ''} data-i18n="${k}"></a>`).join('')}</nav>
     <div class="tools">
       <div class="lang" role="group" aria-label="Language">${LANGS.map(l => `<button type="button" data-lang="${l}" aria-pressed="false">${l.toUpperCase()}</button>`).join('')}</div>
-      <div class="langdd"><button class="ldb" type="button" aria-haspopup="true" aria-expanded="false" data-i18n-aria="nav.lang" aria-label="Language"><span data-lang-cur>TR</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-        <div class="ldm">${LANGS.map(k => `<button type="button" data-lang="${k}" aria-pressed="false">${NAMES[k]}<small>${k.toUpperCase()}</small></button>`).join('')}</div></div>
       ${PAGE === 'quote' ? '' : `<button class="btn amber hq" type="button" data-openquote>${WA_ICON}<span data-i18n="nav.quote"></span><b class="cnt" hidden>0</b></button>`}
     </div>
+    <button class="burger" type="button" aria-label="Menu" data-i18n-aria="nav.menu" aria-expanded="false"><i></i></button>
   </header>
-  <button class="burger" type="button" aria-label="Menu" data-i18n-aria="nav.menu" aria-expanded="false"><i></i></button>
   <div class="mnav" id="mnav">${NAV.map(([id, href, k]) => `<a href="${href}" data-i18n="${k}"></a>`).join('')}<a href="quote.html" data-i18n="nav.quote"></a></div>`;
 
   const ftr = document.getElementById('ftr');

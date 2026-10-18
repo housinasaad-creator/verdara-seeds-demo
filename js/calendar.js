@@ -1,9 +1,9 @@
 /* Sowing calendar: every crop as a row of animated month bars for the chosen zone; the current month, today's marker and the crops that are active now come from the season engine. */
-import { V, t, Q, openQuote } from './layout.js';
-import { CATS, CROPS, ZONES, catName, cropName, norm } from './data.js';
-import { reveal } from './motion.js';
-import { monthBars, monthHeader, windowText, stateChip } from './cards.js';
-import { today, getZone, setZone, setPreviewMonth, cropState, monthName } from './season.js';
+import { V, t, Q, openQuote } from './layout.js?v=10182307';
+import { CATS, CROPS, ZONES, catName, cropName, norm } from './data.js?v=10182307';
+import { reveal } from './motion.js?v=10182307';
+import { monthBars, monthHeader, windowText, stateChip } from './cards.js?v=10182307';
+import { today, getZone, setZone, setPreviewMonth, cropState, monthName } from './season.js?v=10182307';
 
 const $ = (s) => document.querySelector(s);
 const rows = $('#crows'), tab = $('#ctab'), todayEl = $('#today');
