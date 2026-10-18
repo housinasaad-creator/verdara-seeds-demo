@@ -82,10 +82,10 @@ const css = (c) => `rgb(${c.map(v => Math.round(clamp(v) * 255)).join(',')})`;
 
 /* the weather of the month: sky tint [r,g,b,amount], hill colour [r,g,b,amount], grass tint [r,g,b,amount], sun strength, falling things */
 const SEASONS = {
-  winter: { sky: [0.66, 0.74, 0.88, 0.4], hill: [0.8, 0.86, 0.9, 0.55], gt: [0.92, 0.96, 1.0, 0.6], grass: 0.8, sun: 0.55, fall: { shape: 0, c1: [1, 1, 1], c2: [0.82, 0.92, 1], size: 1.0, speed: 0.5, sway: 1.0, count: 1 } },
-  spring: { sky: [0.78, 0.84, 1.0, 0.14], hill: [0.46, 0.74, 0.4, 0.25], gt: [0, 0, 0, 0], grass: 1.06, sun: 1.0, fall: { shape: 1, c1: [1, 0.74, 0.84], c2: [1, 0.96, 0.98], size: 1.15, speed: 0.4, sway: 1.5, count: 0.8 } },
-  summer: { sky: [0.3, 0.62, 1.0, 0.16], hill: [0.62, 0.6, 0.28, 0.3], gt: [0.8, 0.75, 0.3, 0.18], grass: 1.0, sun: 1.18, fall: { shape: 0, c1: [1, 0.88, 0.5], c2: [1, 0.96, 0.72], size: 0.55, speed: 0.08, sway: 1.8, count: 0.4 } },
-  autumn: { sky: [1.0, 0.7, 0.45, 0.22], hill: [0.62, 0.4, 0.17, 0.5], gt: [0.75, 0.5, 0.2, 0.42], grass: 0.9, sun: 0.9, fall: { shape: 2, c1: [0.92, 0.42, 0.1], c2: [0.78, 0.16, 0.1], size: 1.35, speed: 0.65, sway: 1.2, count: 0.9 } }
+  winter: { sky: [0.66, 0.74, 0.88, 0.58], hill: [0.86, 0.9, 0.94, 0.85], gt: [0.93, 0.97, 1.0, 0.75], grass: 0.85, sun: 0.5, fall: { shape: 0, c1: [1, 1, 1], c2: [0.82, 0.92, 1], size: 1.0, speed: 0.5, sway: 1.0, count: 1 } },
+  spring: { sky: [0.8, 0.86, 1.0, 0.2], hill: [0.4, 0.78, 0.36, 0.4], gt: [0.55, 0.9, 0.4, 0.2], grass: 1.1, sun: 1.0, fall: { shape: 1, c1: [1, 0.74, 0.84], c2: [1, 0.96, 0.98], size: 1.15, speed: 0.4, sway: 1.5, count: 0.8 } },
+  summer: { sky: [0.25, 0.6, 1.0, 0.26], hill: [0.7, 0.62, 0.24, 0.5], gt: [0.85, 0.78, 0.3, 0.3], grass: 1.0, sun: 1.25, fall: { shape: 0, c1: [1, 0.88, 0.5], c2: [1, 0.96, 0.72], size: 0.55, speed: 0.08, sway: 1.8, count: 0.4 } },
+  autumn: { sky: [1.0, 0.68, 0.42, 0.34], hill: [0.66, 0.36, 0.13, 0.75], gt: [0.78, 0.46, 0.16, 0.55], grass: 0.9, sun: 0.9, fall: { shape: 2, c1: [0.92, 0.42, 0.1], c2: [0.78, 0.16, 0.1], size: 1.35, speed: 0.65, sway: 1.2, count: 0.9 } }
 };
 
 export class Hero {
@@ -260,7 +260,7 @@ export class Hero {
 
   /* snow / petals / pollen / leaves, depending on the month: one cheap Points object that wraps around the camera */
   buildFall() {
-    const n = this.mobile ? 90 : 190, box = new THREE.Vector3(60, 50, 34), g = new THREE.BufferGeometry(), a = new Float32Array(n * 3), sd = new Float32Array(n);
+    const n = this.mobile ? 110 : 240, box = new THREE.Vector3(60, 50, 34), g = new THREE.BufferGeometry(), a = new Float32Array(n * 3), sd = new Float32Array(n);
     for (let i = 0; i < n; i++) { a[i * 3] = rnd() * box.x; a[i * 3 + 1] = rnd() * box.y; a[i * 3 + 2] = rnd() * box.z; sd[i] = rnd(); }
     g.setAttribute('position', new THREE.BufferAttribute(a, 3)); g.setAttribute('aSeed', new THREE.BufferAttribute(sd, 1));
     this.fallMat = new THREE.ShaderMaterial({
@@ -270,8 +270,8 @@ export class Hero {
         void main(){ float fall = uTime*uSpeed*(.8+aSeed*.7)*6.; vec3 p = position + vec3(sin(uTime*.4*uSway+aSeed*40.)*1.8, -fall, cos(uTime*.33*uSway+aSeed*30.)*1.4);
           vec3 rel = mod(p - uCam + uBox*.5, uBox) - uBox*.5; vec3 w = uCam + rel; vec4 mv = viewMatrix*vec4(w,1.); float d = -mv.z;
           float over = smoothstep(0.5, 3.0, w.y), on = step(aSeed, uCount);
-          vA = smoothstep(uBox.z*.5, uBox.z*.15, length(rel)) * over * on * uAmt; vS = aSeed; vR = uTime*(.6+aSeed*1.6)+aSeed*20.;
-          gl_PointSize = (.35 + aSeed*.55) * uSize * uPx / max(d, 6.) * 120.; gl_Position = projectionMatrix*mv; }`,
+          vec3 q = abs(rel)/uBox; vA = (1. - smoothstep(.38, .5, q.x)) * (1. - smoothstep(.38, .5, q.y)) * (1. - smoothstep(.38, .5, q.z)) * over * on * uAmt; vS = aSeed; vR = uTime*(.6+aSeed*1.6)+aSeed*20.;
+          gl_PointSize = min((.35 + aSeed*.6) * uSize * uPx / max(d, 6.) * 640., 34.); gl_Position = projectionMatrix*mv; }`,
       fragmentShader: `uniform float uShape; uniform vec3 uC1, uC2; varying float vA; varying float vS; varying float vR;
         void main(){ vec2 c = gl_PointCoord-.5; float cs = cos(vR), sn = sin(vR); vec2 r = vec2(cs*c.x - sn*c.y, sn*c.x + cs*c.y); float a;
           if (uShape < .5) a = smoothstep(.5, .15, length(c));
@@ -351,7 +351,7 @@ export class Hero {
       this._c = this._c || new THREE.Color(); this._c.setRGB(hor[0], hor[1], hor[2], THREE.SRGBColorSpace); h.material.color.lerp(this._c, (0.5 - i * 0.14) * smooth(0.6, 0.95, p));
     });
     this.sunSprite.material.opacity = smooth(0.62, 0.9, p) * 0.95 * sp.sun;
-    const fu = this.fallMat.uniforms; fu.uTime.value = this.time; fu.uCam.value.copy(this.camera.position); fu.uAmt.value = smooth(0.5, 0.72, p);
+    const fu = this.fallMat.uniforms; fu.uTime.value = this.time; fu.uCam.value.set(this.camera.position.x, this.camera.position.y, this.camera.position.z * 0.4); /* the falling layer lives between the camera and the plant */ fu.uAmt.value = smooth(0.5, 0.72, p);
     const [ty, dist, fov] = cam(p); this.ptS.lerp(this.pointer, 1 - Math.exp(-dt * 3));
     const k = this.camera.userData.k || 1, lookY = ty;
     this.camera.fov = fov * k; this.camera.position.set(this.ptS.x * 1.4, lookY + 1.6 - this.ptS.y * 0.9, dist * (this.portrait ? 1.08 : 1)); this.camera.lookAt(0, lookY, 0);

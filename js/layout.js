@@ -6,6 +6,7 @@ import { BRAND, markSVG } from './brand.js';
 import { V, t, tl, setLang, applyI18n, LANGS, waLink } from './core.js';
 import { mountFab, openQuote, WA_ICON, Q } from './quote.js';
 import { reveal, tilt, art } from './motion.js';
+import './cursor.js';
 
 const PAGE = document.body.dataset.page || 'home';
 const NAV = [['home', 'index.html', 'nav.home'], ['catalog', 'catalog.html', 'nav.catalog'], ['calendar', 'calendar.html', 'nav.calendar'], ['about', 'about.html', 'nav.about']];

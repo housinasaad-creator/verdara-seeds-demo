@@ -17,7 +17,6 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/cursor.css">
 <script type="importmap">{"imports":{"three":"./js/vendor/three.module.min.js"}}</script>
 </head>
 <body data-page="home">
@@ -52,14 +51,16 @@
   <section class="sec tint" id="feat">
     <div class="wrap">
       <header class="sh row" data-rv><div><p class="k" data-i18n="h.feat.k"></p><h2 data-i18n="h.feat.t"></h2></div>
-        <div class="rtools">
-          <button class="rbtn" id="rprev" type="button" data-i18n-aria="c.prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
-          <button class="rbtn" id="rnext" type="button" data-i18n-aria="c.next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-          <a class="btn ghost" href="catalog.html"><span data-i18n="h.feat.all"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        </div></header>
+        <a class="btn ghost" href="catalog.html"><span data-i18n="h.feat.all"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></header>
     </div>
     <div class="wrap"><div class="sstrip" id="sstrip" data-rv></div></div>
-    <div class="rail" id="rail" data-rv tabindex="0" role="region" data-i18n-aria="h.feat.t"></div>
+    <div class="railwrap">
+      <div class="rnavs"><div class="rnavs-in">
+        <button class="rnav" id="rprev" type="button" data-i18n-aria="c.prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <button class="rnav" id="rnext" type="button" data-i18n-aria="c.next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div></div>
+      <div class="rail" id="rail" data-rv tabindex="0" role="region" data-i18n-aria="h.feat.t"></div>
+    </div>
     <div class="wrap"><p class="snote" id="snote"></p></div>
   </section>
 

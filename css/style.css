@@ -131,7 +131,7 @@ body:not([data-page=home]) main{padding-top:var(--hh)}
 .cat:nth-child(n+2){grid-column:span 2}
 
 /* featured rail */
-.rail{--rp:max(var(--pad),calc((100vw - var(--wrap))/2 + var(--pad)));overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:34px var(--rp) 40px;scroll-padding-inline:var(--rp);scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.rail{--rp:max(var(--pad),calc((100vw - var(--wrap))/2 + var(--pad)));overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:34px var(--rp) 40px;scroll-padding-inline:var(--rp);scroll-snap-type:none;-webkit-overflow-scrolling:touch}
 .rail::-webkit-scrollbar{display:none}
 .railin{display:flex;gap:24px;width:max-content;margin-inline:auto;max-width:none}
 .railin .pcard{scroll-snap-align:start}
@@ -511,3 +511,29 @@ html[lang=ar] .cn{max-width:none}
 /* the colours never follow the device or browser theme */
 :root{forced-color-adjust:none}
 @media (prefers-color-scheme:dark){:root{color-scheme:only light}body{background:var(--paper);color:var(--ink)}}
+
+/* seed cursor (js/cursor.js): a small seed that leans with the mouse and splits open over anything clickable */
+html.sc-on,html.sc-on *{cursor:none!important}
+html.sc-on input,html.sc-on textarea,html.sc-on [contenteditable]{cursor:text!important}
+.sc{position:fixed;left:0;top:0;width:52px;height:52px;margin:-20px 0 0 -20px;pointer-events:none;z-index:300;will-change:transform;transition:opacity .2s}
+.sc.gone,.sc.txt{opacity:0}
+.sc-lean{width:52px;height:52px;transform:rotate(var(--r,0deg))}
+.sc svg{display:block;overflow:visible;transform:scale(.52);filter:drop-shadow(0 0 1.2px #fff) drop-shadow(0 0 1.2px #fff) drop-shadow(0 2px 3px rgba(0,0,0,.28));transition:transform .3s cubic-bezier(.2,.9,.3,1.35)}
+.sc-half{transition:transform .32s cubic-bezier(.2,.9,.3,1.4);transform-box:fill-box}
+.sc-l{transform-origin:100% 100%}.sc-r{transform-origin:0 100%}
+.sc-sprout{transform-box:fill-box;transform-origin:50% 100%;transform:scale(.15);opacity:0;transition:transform .34s cubic-bezier(.2,.9,.3,1.4),opacity .2s}
+.sc.open svg{transform:scale(.98)}
+.sc.open .sc-l{transform:translate(-3.5px,0) rotate(-11deg)}
+.sc.open .sc-r{transform:translate(3.5px,0) rotate(11deg)}
+.sc.open .sc-sprout{transform:scale(.78) translateY(2px);opacity:1}
+.sc.down svg{transform:scale(.46)}.sc.open.down svg{transform:scale(.84)}
+
+/* big transparent arrows over the featured products; they stay in the middle of the screen while the products are in view */
+.railwrap{position:relative}
+.rnavs{position:absolute;inset:0;z-index:5;pointer-events:none}
+.rnavs-in{position:sticky;top:50vh;display:flex;justify-content:space-between;padding-inline:clamp(8px,2.2vw,34px);height:0}
+.rnav{pointer-events:auto;width:72px;height:72px;margin-top:-4px;border-radius:50%;border:1px solid rgba(16,38,27,.16);background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 30px -14px rgba(16,38,27,.5);transition:background .25s,transform .25s,border-color .25s}
+.rnav svg{width:30px;height:30px}
+.rnav:hover{background:#fff;border-color:var(--ink);transform:scale(1.06)}
+.rnav:active{transform:scale(.96)}
+@media (max-width:640px){.rnav{width:54px;height:54px}.rnav svg{width:24px;height:24px}}

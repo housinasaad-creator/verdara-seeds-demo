@@ -9,13 +9,17 @@ import { today, getZone, setZone, setPreviewMonth, seasonOf, monthName, summary,
 const $ = (s, r = document) => r.querySelector(s);
 const journey = $('#journey'), stage = $('#stage');
 
-/* ---------- featured rail: arrows scroll it a few cards at a time ---------- */
+/* ---------- featured rail: endless loop (three identical sets, the view is re-centred on the middle one), big arrows over the products ---------- */
 const rail = $('#rail'), rprev = $('#rprev'), rnext = $('#rnext');
-function railState() { rprev.disabled = rail.scrollLeft <= 2; rnext.disabled = rail.scrollLeft >= rail.scrollWidth - rail.clientWidth - 2; }
+let setW = 0, idleT = 0;
+const cards = () => rail.querySelectorAll('.pcard');
+function measure() { const c = cards(), n = c.length / 3; setW = n ? c[n].offsetLeft - c[0].offsetLeft : 0; }
+function recenter() { if (!setW) return; const sl = rail.scrollLeft; if (sl < setW * 0.5) rail.scrollLeft = sl + setW; else if (sl > setW * 1.5) rail.scrollLeft = sl - setW; }
 function railStep() { const c = rail.querySelector('.pcard'), w = c ? c.offsetWidth + 24 : 286; return w * Math.max(1, Math.floor(rail.clientWidth / w) - 0); }
 rprev.addEventListener('click', () => rail.scrollBy({ left: -railStep(), behavior: REDUCE ? 'auto' : 'smooth' }));
 rnext.addEventListener('click', () => rail.scrollBy({ left: railStep(), behavior: REDUCE ? 'auto' : 'smooth' }));
-rail.addEventListener('scroll', railState, { passive: true }); addEventListener('resize', railState);
+rail.addEventListener('scroll', () => { clearTimeout(idleT); idleT = setTimeout(recenter, 110); }, { passive: true });
+addEventListener('resize', () => { const k = setW ? (rail.scrollLeft - setW) / setW : 0; measure(); rail.scrollLeft = setW * (1 + k); });
 rail.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') { e.preventDefault(); rnext.click(); } else if (e.key === 'ArrowLeft') { e.preventDefault(); rprev.click(); } });
 
 /* ---------- group tiles (language only) ---------- */
@@ -40,7 +44,10 @@ function buildSeason() {
   $('#snote').textContent = t('ss.note');
   counters($('#sstrip'));
   unart(rail);
-  rail.innerHTML = `<div class="railin">${featured(12, z, d.month).map(f => cardHTML(f.product)).join('')}</div>`; rail.scrollLeft = 0; railState();
+  const html = featured(12, z, d.month).map(f => cardHTML(f.product));
+  const dup = (h) => h.replace('<article class="pcard"', '<article class="pcard" aria-hidden="true"').replace(/<a /g, '<a tabindex="-1" ').replace(/<button /g, '<button tabindex="-1" ');
+  rail.innerHTML = `<div class="railin">${html.map(dup).join('')}${html.join('')}${html.map(dup).join('')}</div>`;
+  measure(); rail.scrollLeft = setW;
   const rows = [...new Set(featured(8, z, d.month).map(f => f.product.crop))].slice(0, 4);
   $('#calmini').innerHTML = monthHeader() + rows.map(id => {
     const w = windowText(id, z);
