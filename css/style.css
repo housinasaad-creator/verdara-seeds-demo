@@ -537,3 +537,35 @@ html.sc-on input,html.sc-on textarea,html.sc-on [contenteditable]{cursor:text!im
 .rnav:hover{background:#fff;border-color:var(--ink);transform:scale(1.06)}
 .rnav:active{transform:scale(.96)}
 @media (max-width:640px){.rnav{width:54px;height:54px}.rnav svg{width:24px;height:24px}}
+
+/* back to top */
+.totop{position:fixed;inset-inline-end:18px;bottom:86px;z-index:49;width:48px;height:48px;border-radius:50%;border:1px solid rgba(16,38,27,.18);background:rgba(255,255,255,.84);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 28px -14px rgba(16,38,27,.55);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .3s,transform .3s,background .25s}
+.totop.low{bottom:18px}
+.totop.on{opacity:1;transform:none;pointer-events:auto}
+.totop.on:hover{background:#fff;transform:translateY(-2px)}
+.totop svg{width:22px;height:22px}
+
+/* botanical backdrops: very faint plants and grass instead of a plain cream background; every section draws a different pair (static SVG files, no cost while scrolling) */
+.sec,.chead,.calhead,.ahero{position:relative;isolation:isolate}
+.sec::before,.chead::before,.calhead::before,.ahero::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none}
+.sec::before{background-repeat:no-repeat,no-repeat,repeat-x;background-size:min(250px,20vw) auto,min(180px,15vw) auto,640px 100px}
+.sec:nth-child(3n+1)::before{background-image:url(../assets/deco/seedling.svg),url(../assets/deco/wheat.svg),url(../assets/deco/grass.svg);background-position:right -24px bottom 50px,left -18px bottom 56px,left bottom}
+.sec:nth-child(3n+2)::before{background-image:url(../assets/deco/fern.svg),url(../assets/deco/flower.svg),url(../assets/deco/grass.svg);background-position:left -34px bottom 40px,right -12px bottom 56px,left bottom}
+.sec:nth-child(3n)::before{background-image:url(../assets/deco/sprout.svg),url(../assets/deco/clover.svg),url(../assets/deco/grass.svg);background-position:right -8px bottom 50px,left -8px bottom 60px,left bottom}
+.sec.dark:nth-child(3n+1)::before{background-image:url(../assets/deco/seedling-light.svg),url(../assets/deco/wheat-light.svg),url(../assets/deco/grass-light.svg)}
+.sec.dark:nth-child(3n+2)::before{background-image:url(../assets/deco/fern-light.svg),url(../assets/deco/flower-light.svg),url(../assets/deco/grass-light.svg)}
+.sec.dark:nth-child(3n)::before{background-image:url(../assets/deco/sprout-light.svg),url(../assets/deco/clover-light.svg),url(../assets/deco/grass-light.svg)}
+.chead::before,.calhead::before,.ahero::before{background:url(../assets/deco/branch.svg) no-repeat right -24px top -8px/min(440px,38vw) auto}
+body:not([data-page=home]) main{position:relative;isolation:isolate}
+body:not([data-page=home]) main::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:url(../assets/deco/seedling.svg) no-repeat left -60px top 720px/210px auto,url(../assets/deco/fern.svg) no-repeat right -70px top 1450px/250px auto,url(../assets/deco/wheat.svg) no-repeat left -40px top 2250px/190px auto,url(../assets/deco/flower.svg) no-repeat right -50px top 3000px/200px auto,url(../assets/deco/grass.svg) repeat-x left bottom/640px 100px}
+.cta .wrap{position:relative}
+.cta::before{content:'';position:absolute;inset:0;pointer-events:none;background:url(../assets/deco/fern-light.svg) no-repeat left -40px bottom 40px/min(260px,21vw) auto,url(../assets/deco/wheat-light.svg) no-repeat right -20px bottom 40px/min(200px,16vw) auto,url(../assets/deco/grass-light.svg) repeat-x left bottom/640px 100px}
+.ftr{position:relative}
+.ftr::before{content:'';position:absolute;left:0;right:0;top:-89px;height:90px;pointer-events:none;background:url(../assets/deco/grass-footer.svg) repeat-x left bottom/640px 90px;opacity:.9}
+@media (max-width:640px){.sec::before,.sec:nth-child(n)::before{background-size:120px auto,90px auto,480px 76px}.ftr::before{background-size:480px 68px;height:68px;top:-67px}}
+
+/* about page (Arabic especially): the text never runs under the crop collage */
+.ahero .wrap>*:not(.coll):not(.stats){max-width:min(100%,600px)}
+.ahero h1{max-width:min(100%,600px)}
+html[lang=ar] .ahero h1{font-size:clamp(42px,5.4vw,88px)}
+.coll{width:min(40%,470px)}

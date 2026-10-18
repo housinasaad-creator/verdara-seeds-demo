@@ -5,7 +5,7 @@
 import { BRAND, markSVG } from './brand.js';
 import { V, t, tl, setLang, applyI18n, LANGS, waLink } from './core.js';
 import { mountFab, openQuote, WA_ICON, Q } from './quote.js';
-import { reveal, tilt, art } from './motion.js';
+import { reveal, tilt, art, REDUCE } from './motion.js';
 import './cursor.js';
 
 const PAGE = document.body.dataset.page || 'home';
@@ -72,9 +72,20 @@ function wire() {
   window.addEventListener('langchange', setTitles);
 }
 
+/* back-to-top button: appears once the visitor has scrolled down, sits above the floating quote button */
+function mountTop() {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'totop'; b.setAttribute('data-i18n-aria', 'c.top');
+  b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>';
+  if (PAGE === 'quote') b.classList.add('low');
+  document.body.appendChild(b); applyI18n(b);
+  let on = false; const upd = () => { const s = scrollY > 700; if (s !== on) { on = s; b.classList.toggle('on', s); } };
+  addEventListener('scroll', upd, { passive: true }); upd();
+  b.addEventListener('click', () => scrollTo({ top: 0, behavior: REDUCE ? 'auto' : 'smooth' }));
+}
+
 chrome();
 document.documentElement.lang = V.lang; document.documentElement.dir = 'ltr';
-setLang(V.lang, true); setTitles(); wire(); mountFab();
+setLang(V.lang, true); setTitles(); wire(); mountFab(); mountTop();
 document.addEventListener('DOMContentLoaded', () => { reveal(); tilt(); art(); });
 if (document.readyState !== 'loading') { reveal(); tilt(); art(); }
 export { V, t, tl, setLang, applyI18n, waLink, openQuote, Q };
