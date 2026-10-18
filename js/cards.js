@@ -37,7 +37,7 @@ export function monthBars(cropId, zone) {
   return `<div class="mb" aria-hidden="true">${segs(w.sow).map(bar('sow', 1)).join('')}${cov.map(bar('cov', 1)).join('')}${segs(w.harv).map(bar('harv', 2)).join('')}</div>`;
 }
 /* month names row with the current month highlighted */
-export function monthHeader(lang = V.lang) { const cur = today().month - 1; return `<div class="cm-h">${monthLabels(lang).map((x, i) => `<span${i === cur ? ' class="now"' : ''}>${x}</span>`).join('')}</div>`; }
+export function monthHeader(lang = V.lang) { const cur = today().month - 1; return `<div class="cm-h">${monthLabels(lang).map((x, i) => `<span data-n="${i + 1}"${i === cur ? ' class="now"' : ''}>${x}</span>`).join('')}</div>`; }
 export function windowText(cropId, zone, lang = V.lang) {
   const m = monthLabels(lang), w = windows(cropId, zone), f = (arr) => arr.map(([a, b]) => `${m[a - 1]}–${m[b - 1]}`).join(', ');
   return { sow: f(w.sow), harv: f(w.harv), cover: canCover(cropId) ? f(coverWindow(zone)) : '' };

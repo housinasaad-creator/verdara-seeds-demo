@@ -16,6 +16,7 @@ const DESC = {
   fr: 'VERDARA est une démo de marque et de site pour la fourniture de semences en gros : catalogue, calendrier de semis et devis sur WhatsApp.',
   ar: 'فيردارا نموذج علامة وموقع لتوريد البذور بالجملة: كتالوج وتقويم زراعة وعروض أسعار عبر واتساب.'
 };
+const NAMES = { tr: 'Türkçe', en: 'English', fr: 'Français', ar: 'العربية' };
 const HOME_TITLE = { tr: 'VERDARA | Toptan tohum tedariki', en: 'VERDARA | Wholesale seed supply', fr: 'VERDARA | Semences en gros', ar: 'فيردارا | توريد البذور بالجملة' };
 
 function chrome() {
@@ -27,12 +28,13 @@ function chrome() {
     <nav class="nav" aria-label="Main">${NAV.map(([id, href, k]) => `<a href="${href}" ${PAGE === id || (PAGE === 'product' && id === 'catalog') ? 'class="on" aria-current="page"' : ''} data-i18n="${k}"></a>`).join('')}</nav>
     <div class="tools">
       <div class="lang" role="group" aria-label="Language">${LANGS.map(l => `<button type="button" data-lang="${l}" aria-pressed="false">${l.toUpperCase()}</button>`).join('')}</div>
+      <div class="langdd"><button class="ldb" type="button" aria-haspopup="true" aria-expanded="false" data-i18n-aria="nav.lang" aria-label="Language"><span data-lang-cur>TR</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldm">${LANGS.map(k => `<button type="button" data-lang="${k}" aria-pressed="false">${NAMES[k]}<small>${k.toUpperCase()}</small></button>`).join('')}</div></div>
       ${PAGE === 'quote' ? '' : `<button class="btn amber hq" type="button" data-openquote>${WA_ICON}<span data-i18n="nav.quote"></span><b class="cnt" hidden>0</b></button>`}
-      <button class="burger" type="button" aria-label="Menu" data-i18n-aria="nav.menu" aria-expanded="false"><i></i></button>
     </div>
   </header>
-  <div class="mnav" id="mnav">${NAV.map(([id, href, k]) => `<a href="${href}" data-i18n="${k}"></a>`).join('')}<a href="quote.html" data-i18n="nav.quote"></a>
-    <div class="lang" role="group" aria-label="Language">${LANGS.map(l => `<button type="button" data-lang="${l}" aria-pressed="false">${l.toUpperCase()}</button>`).join('')}</div></div>`;
+  <button class="burger" type="button" aria-label="Menu" data-i18n-aria="nav.menu" aria-expanded="false"><i></i></button>
+  <div class="mnav" id="mnav">${NAV.map(([id, href, k]) => `<a href="${href}" data-i18n="${k}"></a>`).join('')}<a href="quote.html" data-i18n="nav.quote"></a></div>`;
 
   const ftr = document.getElementById('ftr');
   if (ftr) ftr.outerHTML = `
@@ -57,13 +59,20 @@ function setTitles() {
   const d = document.querySelector('meta[name=description]'); if (d) d.content = DESC[V.lang];
 }
 
+function closeLd() { document.querySelectorAll('.langdd.open').forEach(w => { w.classList.remove('open'); w.querySelector('.ldb').setAttribute('aria-expanded', 'false'); }); }
+
 function wire() {
   const bar = document.getElementById('hdrbar'), mnav = document.getElementById('mnav'), burger = document.querySelector('.burger');
   document.addEventListener('click', (e) => {
     const b = e.target.closest('.lang button'); if (b) { setLang(b.dataset.lang); return; }
-    if (e.target.closest('.burger')) { const on = mnav.classList.toggle('on'); burger.setAttribute('aria-expanded', String(on)); bar.classList.toggle('open', on); document.documentElement.classList.toggle('noscroll', on); return; }
-    if (mnav && mnav.classList.contains('on') && e.target.closest('#mnav a')) { mnav.classList.remove('on'); bar.classList.remove('open'); document.documentElement.classList.remove('noscroll'); }
+    const ldb = e.target.closest('.ldb');
+    if (ldb) { const on = ldb.parentNode.classList.toggle('open'); ldb.setAttribute('aria-expanded', String(on)); return; }
+    const li = e.target.closest('.ldm button'); if (li) { setLang(li.dataset.lang); closeLd(); return; }
+    if (!e.target.closest('.langdd')) closeLd();
+    if (e.target.closest('.burger')) { const on = mnav.classList.toggle('on'); burger.setAttribute('aria-expanded', String(on)); burger.classList.toggle('open', on); bar.classList.toggle('open', on); document.documentElement.classList.toggle('noscroll', on); return; }
+    if (mnav && mnav.classList.contains('on') && e.target.closest('#mnav a')) { mnav.classList.remove('on'); burger.classList.remove('open'); bar.classList.remove('open'); document.documentElement.classList.remove('noscroll'); }
   });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLd(); });
   /* the header stays put while scrolling; on the home page it only changes from dark glass to light glass once the hero is behind it */
   const jr = document.getElementById('journey');
   let wasOver = null;
@@ -82,6 +91,10 @@ function mountTop() {
   addEventListener('scroll', upd, { passive: true }); upd();
   b.addEventListener('click', () => scrollTo({ top: 0, behavior: REDUCE ? 'auto' : 'smooth' }));
 }
+
+/* no pinch zoom on touch screens */
+['gesturestart', 'gesturechange', 'gestureend'].forEach(ev => document.addEventListener(ev, (e) => e.preventDefault()));
+document.addEventListener('touchmove', (e) => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
 
 chrome();
 document.documentElement.lang = V.lang; document.documentElement.dir = 'ltr';

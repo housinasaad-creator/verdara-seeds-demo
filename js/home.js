@@ -86,7 +86,7 @@ const CUT = [0, 0.26, 0.52, 0.78];
 let hero = null, p = 0, vis = false;
 
 function chapter(pp) { let i = 0; CUT.forEach((c, k) => { if (pp >= c) i = k; }); chs.forEach((c, k) => c.classList.toggle('on', k === i)); dots.forEach((d, k) => d.classList.toggle('on', k === i)); hint.classList.toggle('gone', pp > 0.04); }
-function progress() { const r = journey.offsetHeight - innerHeight, y = scrollY - journey.offsetTop; p = clamp(y / Math.max(1, r)); chapter(p); if (hero) hero.setProgress(p); }
+function progress() { const r = journey.offsetHeight - stage.offsetHeight, y = scrollY - journey.offsetTop; p = clamp(y / Math.max(1, r)); chapter(p); if (hero) hero.setProgress(p); }
 addEventListener('scroll', progress, { passive: true }); addEventListener('resize', progress); progress();
 
 const ok = !REDUCE && webglOK();
@@ -100,5 +100,5 @@ const idle = window.requestIdleCallback || ((f) => setTimeout(f, 250));
 idle(() => { onIO.observe(journey); farIO.observe(journey); }, { timeout: 1200 });
 document.addEventListener('visibilitychange', () => { if (!hero) return; if (document.hidden) hero.stop(); else if (vis) hero.start(); });
 $('#skipj').addEventListener('click', () => scrollTo({ top: journey.offsetTop + journey.offsetHeight, behavior: 'smooth' }));
-dots.forEach((d, k) => d.addEventListener('click', () => { const r = journey.offsetHeight - innerHeight; scrollTo({ top: journey.offsetTop + r * (CUT[k] + 0.03), behavior: 'smooth' }); }));
+dots.forEach((d, k) => d.addEventListener('click', () => { const r = journey.offsetHeight - stage.offsetHeight; scrollTo({ top: journey.offsetTop + r * (CUT[k] + 0.03), behavior: 'smooth' }); }));
 window.__hero = () => hero;

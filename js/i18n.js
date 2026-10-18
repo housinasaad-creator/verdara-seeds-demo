@@ -62,6 +62,7 @@ export const T = {
     's.sow': 'Şimdi ekin', 's.cover': 'Korumalı alanda başlatın', 's.harvest': 'Hasat zamanı', 's.soon': 'Gelecek ay ekin', 'ss.k': 'Şu an sezonda', 'ss.n.sow': 'şimdi ekilebilir', 'ss.n.cover': 'korumalı alanda başlatılır', 'ss.n.harv': 'hasat dönemi', 'ss.n.soon': 'gelecek ay ekilir', 'ss.preview': 'Ayı önizle', 'ss.today': 'Bugün', 'ss.preview.note': 'Önizleme', 'ss.note': 'Liste her ay, seçtiğiniz iklim bölgesine göre kendiliğinden güncellenir.', 'cat.insn': 'Şu an sezonda', 'cat.s.season': 'Sezondakiler önce', 'cal.act': 'Şu an aktif',
     'cat.show': 'Sonuçları göster',
     'c.top': 'Yukarı çık',
+    'nav.lang': 'Dil',
     'j.skip': 'Girişi atla', 'p.drag': 'Çevirmek için sürükleyin', 'p.sowing': 'Ekim', 'p.harvest': 'Hasat', 'p.ask': "WhatsApp'ta sor", 'p.facts': 'Çeşit özeti', 'a.stat1': 'çeşit', 'a.stat2': 'ürün grubu', 'a.stat3': 'dil', 'a.stat4': 'adımda teklif', 'cal.reqall': 'Seçili ürünler için teklif iste'
   },
 
@@ -113,6 +114,7 @@ export const T = {
     's.sow': 'Sow now', 's.cover': 'Start under cover', 's.harvest': 'Harvest season', 's.soon': 'Sow next month', 'ss.k': 'In season now', 'ss.n.sow': 'to sow now', 'ss.n.cover': 'to start under cover', 'ss.n.harv': 'in harvest', 'ss.n.soon': 'to sow next month', 'ss.preview': 'Preview month', 'ss.today': 'Today', 'ss.preview.note': 'Preview', 'ss.note': 'The list updates by itself every month, for the climate zone you pick.', 'cat.insn': 'In season now', 'cat.s.season': 'In season first', 'cal.act': 'Active now',
     'cat.show': 'Show results',
     'c.top': 'Back to top',
+    'nav.lang': 'Language',
     'j.skip': 'Skip intro', 'p.drag': 'Drag to turn', 'p.sowing': 'Sowing', 'p.harvest': 'Harvest', 'p.ask': 'Ask on WhatsApp', 'p.facts': 'Variety at a glance', 'a.stat1': 'varieties', 'a.stat2': 'crop groups', 'a.stat3': 'languages', 'a.stat4': 'steps to a quote', 'cal.reqall': 'Request a quote for selected crops'
   },
 
@@ -164,6 +166,7 @@ export const T = {
     's.sow': 'Semer maintenant', 's.cover': 'Démarrer sous abri', 's.harvest': 'Saison de récolte', 's.soon': 'Semis le mois prochain', 'ss.k': 'De saison', 'ss.n.sow': 'à semer maintenant', 'ss.n.cover': 'à démarrer sous abri', 'ss.n.harv': 'en récolte', 'ss.n.soon': 'à semer le mois prochain', 'ss.preview': 'Aperçu du mois', 'ss.today': 'Aujourd’hui', 'ss.preview.note': 'Aperçu', 'ss.note': 'La liste se met à jour chaque mois, selon la zone climatique choisie.', 'cat.insn': 'De saison', 'cat.s.season': 'De saison d’abord', 'cal.act': 'Actifs maintenant',
     'cat.show': 'Voir les résultats',
     'c.top': 'Haut de page',
+    'nav.lang': 'Langue',
     'j.skip': "Passer l'intro", 'p.drag': 'Faites glisser pour tourner', 'p.sowing': 'Semis', 'p.harvest': 'Récolte', 'p.ask': 'Demander sur WhatsApp', 'p.facts': 'La variété en bref', 'a.stat1': 'variétés', 'a.stat2': 'groupes de cultures', 'a.stat3': 'langues', 'a.stat4': 'étapes pour un devis', 'cal.reqall': 'Demander un devis pour la sélection'
   },
 
@@ -215,6 +218,7 @@ export const T = {
     's.sow': 'ازرع الآن', 's.cover': 'ابدأ في بيت محمي', 's.harvest': 'موسم الحصاد', 's.soon': 'ازرع الشهر القادم', 'ss.k': 'في الموسم الآن', 'ss.n.sow': 'تُزرع الآن', 'ss.n.cover': 'تبدأ في بيت محمي', 'ss.n.harv': 'في موسم الحصاد', 'ss.n.soon': 'تُزرع الشهر القادم', 'ss.preview': 'معاينة شهر', 'ss.today': 'اليوم', 'ss.preview.note': 'معاينة', 'ss.note': 'تتحدّث القائمة تلقائيًا كل شهر بحسب المنطقة المناخية التي تختارها.', 'cat.insn': 'في الموسم الآن', 'cat.s.season': 'الأصناف الموسمية أولًا', 'cal.act': 'نشط الآن',
     'cat.show': 'عرض النتائج',
     'c.top': 'إلى الأعلى',
+    'nav.lang': 'اللغة',
     'j.skip': 'تخطَّ المقدمة', 'p.drag': 'اسحب للتدوير', 'p.sowing': 'الزراعة', 'p.harvest': 'الحصاد', 'p.ask': 'اسأل عبر واتساب', 'p.facts': 'الصنف باختصار', 'a.stat1': 'صنف', 'a.stat2': 'مجموعة محاصيل', 'a.stat3': 'لغات', 'a.stat4': 'خطوات للحصول على عرض', 'cal.reqall': 'اطلب عرض سعر للمحاصيل المحددة'
   }
 };

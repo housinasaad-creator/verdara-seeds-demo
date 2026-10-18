@@ -21,7 +21,8 @@ export function setLang(l, silent = false) {
   try { localStorage.setItem('vdr.lang', l); } catch (e) { /* ignore */ }
   document.documentElement.lang = l; document.documentElement.dir = DIR[l];
   applyI18n();
-  document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
+  document.querySelectorAll('.lang button, .ldm button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
+  document.querySelectorAll('[data-lang-cur]').forEach(e => { e.textContent = l.toUpperCase(); });
   if (!silent) window.dispatchEvent(new CustomEvent('langchange', { detail: l }));
 }
 
