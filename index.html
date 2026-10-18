@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>VERDARA | Toptan tohum tedariki</title>
+<meta name="description" content="VERDARA, toptan tohum tedariki için bir marka ve web sitesi tasarım örneğidir.">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="light">
+<meta name="darkreader-lock">
+<style>html{color-scheme:only light;forced-color-adjust:none;background:#f6f1e3}</style>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0b120d">
+<meta property="og:title" content="VERDARA · Seeds">
+<meta property="og:description" content="Wholesale seed supply: catalogue, sowing calendar, price quotes on WhatsApp. Design demo.">
+<meta property="og:image" content="https://housinasaad-creator.github.io/verdara-seeds-demo/assets/og.jpg">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/cursor.css">
+<script type="importmap">{"imports":{"three":"./js/vendor/three.module.min.js"}}</script>
+</head>
+<body data-page="home">
+<div id="hdr"></div>
+
+<main id="main">
+  <!-- ============ the seed story (scroll-driven 3D) ============ -->
+  <section class="journey" id="journey" aria-label="VERDARA">
+    <div class="stage" id="stage">
+      <canvas id="gl" aria-hidden="true"></canvas>
+      <div class="shade"></div>
+      <div class="ch on" data-ch="0"><div class="k" data-i18n="j.c1.k"></div><h1 data-i18n="j.c1.t"></h1><p data-i18n="j.c1.p"></p></div>
+      <div class="ch" data-ch="1"><div class="k" data-i18n="j.c2.k"></div><h2 data-i18n="j.c2.t"></h2><p data-i18n="j.c2.p"></p></div>
+      <div class="ch" data-ch="2"><div class="k" data-i18n="j.c3.k"></div><h2 data-i18n="j.c3.t"></h2><p data-i18n="j.c3.p"></p></div>
+      <div class="ch" data-ch="3"><div class="k" data-i18n="j.c4.k"></div><h2 data-i18n="j.c4.t"></h2><p data-i18n="j.c4.p"></p>
+        <div class="acts"><a class="btn amber" href="catalog.html" data-i18n="h.cta.b2"></a><button class="btn glass" type="button" data-openquote data-i18n="h.cta.b1"></button></div></div>
+      <div class="dots" id="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+      <div class="hint" id="hint" aria-hidden="true"><span data-i18n="c.scroll"></span><i></i></div>
+      <button class="skipj" id="skipj" type="button" data-i18n="j.skip"></button>
+    </div>
+  </section>
+
+  <!-- ============ groups ============ -->
+  <section class="sec" id="cats">
+    <div class="wrap">
+      <header class="sh" data-rv><p class="k" data-i18n="h.cats.k"></p><h2 data-i18n="h.cats.t"></h2><p class="lead" data-i18n="h.cats.p"></p></header>
+      <div class="cats" id="catgrid" data-rv-stagger></div>
+    </div>
+  </section>
+
+  <!-- ============ featured ============ -->
+  <section class="sec tint" id="feat">
+    <div class="wrap">
+      <header class="sh row" data-rv><div><p class="k" data-i18n="h.feat.k"></p><h2 data-i18n="h.feat.t"></h2></div>
+        <div class="rtools">
+          <button class="rbtn" id="rprev" type="button" data-i18n-aria="c.prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+          <button class="rbtn" id="rnext" type="button" data-i18n-aria="c.next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <a class="btn ghost" href="catalog.html"><span data-i18n="h.feat.all"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div></header>
+    </div>
+    <div class="wrap"><div class="sstrip" id="sstrip" data-rv></div></div>
+    <div class="rail" id="rail" data-rv tabindex="0" role="region" data-i18n-aria="h.feat.t"></div>
+    <div class="wrap"><p class="snote" id="snote"></p></div>
+  </section>
+
+  <!-- ============ variety finder ============ -->
+  <section class="sec" id="find">
+    <div class="wrap">
+      <header class="sh" data-rv><p class="k" data-i18n="fd.k"></p><h2 data-i18n="fd.t"></h2><p class="lead" data-i18n="fd.p"></p></header>
+      <div class="finder" id="fd" data-rv></div>
+      <div class="fdres" id="fdres"></div>
+      <p class="fdmore"><a class="btn ghost" id="fdmore" href="catalog.html"><span data-i18n="fd.more"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+    </div>
+  </section>
+
+  <!-- ============ why ============ -->
+  <section class="sec tint" id="why">
+    <div class="wrap">
+      <header class="sh" data-rv><p class="k" data-i18n="h.why.k"></p><h2 data-i18n="h.why.t"></h2></header>
+      <div class="why" data-rv-stagger>
+        <article><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 5l15 6v11c0 10-6.5 17-15 21C15.5 39 9 32 9 22V11z"/><path d="M17 24l5 5 9-10"/></svg><h3 data-i18n="h.w1.t"></h3><p data-i18n="h.w1.p"></p></article>
+        <article><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l17-8 17 8v18L24 41 7 33z"/><path d="M7 15l17 8 17-8M24 23v18"/></svg><h3 data-i18n="h.w2.t"></h3><p data-i18n="h.w2.p"></p></article>
+        <article><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h26v18H4zM30 20h8l6 7v5H30z"/><circle cx="14" cy="35" r="4"/><circle cx="36" cy="35" r="4"/></svg><h3 data-i18n="h.w3.t"></h3><p data-i18n="h.w3.p"></p></article>
+        <article><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 42V24M24 26c0-8-6-13-14-13 0 8 6 13 14 13zM24 30c0-7 5-11 13-11 0 7-5 11-13 11z"/><path d="M12 42h24"/></svg><h3 data-i18n="h.w4.t"></h3><p data-i18n="h.w4.p"></p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ process ============ -->
+  <section class="sec dark" id="proc">
+    <div class="wrap">
+      <header class="sh" data-rv><p class="k" data-i18n="h.proc.k"></p><h2 data-i18n="h.proc.t"></h2></header>
+      <ol class="steps" data-rv-stagger>
+        <li><b>01</b><h3 data-i18n="h.s1.t"></h3><p data-i18n="h.s1.p"></p></li>
+        <li><b>02</b><h3 data-i18n="h.s2.t"></h3><p data-i18n="h.s2.p"></p></li>
+        <li><b>03</b><h3 data-i18n="h.s3.t"></h3><p data-i18n="h.s3.p"></p></li>
+        <li><b>04</b><h3 data-i18n="h.s4.t"></h3><p data-i18n="h.s4.p"></p></li>
+        <li><b>05</b><h3 data-i18n="h.s5.t"></h3><p data-i18n="h.s5.p"></p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ calendar teaser ============ -->
+  <section class="sec" id="calt">
+    <div class="wrap calt">
+      <header class="sh" data-rv><p class="k" data-i18n="h.cal.k"></p><h2 data-i18n="h.cal.t"></h2><p class="lead" data-i18n="h.cal.p"></p><a class="btn amber" href="calendar.html" data-i18n="h.cal.btn"></a></header>
+      <div class="cal-mini" id="calmini" data-rv></div>
+    </div>
+  </section>
+
+  <!-- ============ call to action ============ -->
+  <section class="cta" id="cta">
+    <div class="wrap" data-rv>
+      <h2 data-i18n="h.cta.t"></h2><p data-i18n="h.cta.p"></p>
+      <div class="acts"><button class="btn amber big" type="button" data-openquote data-i18n="h.cta.b1"></button><a class="btn glass big" href="catalog.html" data-i18n="h.cta.b2"></a></div>
+    </div>
+  </section>
+</main>
+
+<div id="ftr"></div>
+<script type="module" src="js/layout.js"></script>
+<script type="module" src="js/home.js"></script>
+</body>
+</html>

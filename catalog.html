@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Katalog | VERDARA</title>
+<meta name="description" content="VERDARA katalog.">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="light">
+<meta name="darkreader-lock">
+<style>html{color-scheme:only light;forced-color-adjust:none;background:#f6f1e3}</style>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#f6f1e3">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/cursor.css">
+<script type="importmap">{"imports":{"three":"./js/vendor/three.module.min.js"}}</script>
+</head>
+<body data-page="catalog">
+<div id="hdr"></div>
+<main id="main">
+  <section class="chead">
+    <div class="wrap">
+      <p class="k" data-i18n="cat.k"></p>
+      <h1 data-i18n="cat.t"></h1>
+      <p class="lead" data-i18n="cat.p"></p>
+      <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="q" type="search" dir="auto" data-i18n-ph="cat.search" data-i18n-aria="cat.search" autocomplete="off" enterkeyhint="search"></label>
+    </div>
+  </section>
+
+  <div class="wrap cwrap">
+    <div class="fscrim" id="fscrim"></div>
+    <aside class="filters" id="filters">
+      <button class="btn amber fclose" id="fclose" type="button"></button>
+      <div><button class="chip big" id="finsn" type="button" aria-pressed="false" data-i18n="cat.insn"></button></div>
+      <div><h3 data-i18n="cat.groups"></h3><div class="fg" id="fgroups"></div></div>
+      <div id="fcropwrap" hidden><h3 data-i18n="cat.crop"></h3><div class="chips" id="fcrops"></div></div>
+      <div><h3 data-i18n="cat.season"></h3><div class="chips" id="fseason"></div></div>
+      <div><h3 data-i18n="cat.grow"></h3><div class="chips" id="fgrow"></div></div>
+      <div><h3 data-i18n="cat.sort"></h3>
+        <select class="fsel" id="fsort"><option value="def" data-i18n="cat.s.def"></option><option value="az" data-i18n="cat.s.az"></option><option value="early" data-i18n="cat.s.early"></option><option value="season" data-i18n="cat.s.season"></option></select></div>
+      <button class="lnk" id="freset" type="button" data-i18n="cat.reset"></button>
+    </aside>
+    <section>
+      <div class="ctop"><span id="count" aria-live="polite"></span><button class="btn ghost fbtn" id="fopen" type="button"><span data-i18n="cat.filters"></span></button></div>
+      <div class="grid" id="grid"></div>
+      <div id="sent" aria-hidden="true"></div>
+    </section>
+  </div>
+</main>
+<div id="ftr"></div>
+<script type="module" src="js/layout.js"></script>
+<script type="module" src="js/catalog.js"></script>
+</body>
+</html>

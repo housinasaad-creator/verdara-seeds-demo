@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ekim takvimi | VERDARA</title>
+<meta name="description" content="VERDARA ekim takvimi.">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="light">
+<meta name="darkreader-lock">
+<style>html{color-scheme:only light;forced-color-adjust:none;background:#f6f1e3}</style>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#f6f1e3">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/cursor.css">
+<script type="importmap">{"imports":{"three":"./js/vendor/three.module.min.js"}}</script>
+</head>
+<body data-page="calendar">
+<div id="hdr"></div>
+<main id="main">
+  <section class="calhead">
+    <div class="wrap">
+      <p class="k" style="font:800 12px var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--leaf2)" data-i18n="cal.k"></p>
+      <h1 data-i18n="cal.t"></h1>
+      <p class="lead" style="color:var(--mut);max-width:60ch;font-size:18px" data-i18n="cal.p"></p>
+      <div class="ctl">
+        <div><h3 data-i18n="cal.zone"></h3><div class="chips" id="zones"></div></div>
+        <div><h3 data-i18n="cat.groups"></h3><select class="fsel" id="grp" style="min-width:230px"></select></div>
+        <div><h3 data-i18n="ss.preview"></h3><select class="fsel" id="cmon" style="min-width:190px"></select></div>
+        <div><h3>&nbsp;</h3><button class="chip big" id="cact" type="button" aria-pressed="false" data-i18n="cal.act"></button></div>
+        <div><h3 data-i18n="cat.crop"></h3><label class="csearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="cq" type="search" dir="auto" data-i18n-ph="cat.search" data-i18n-aria="cat.search" autocomplete="off"></label></div>
+      </div>
+    </div>
+  </section>
+  <div class="wrap">
+    <div class="ctab" id="ctab"><div id="crows"></div><i class="today" id="today" hidden></i></div>
+    <p class="calnote" data-i18n="cal.note"></p>
+  </div>
+</main>
+<div id="ftr"></div>
+<script type="module" src="js/layout.js"></script>
+<script type="module" src="js/calendar.js"></script>
+</body>
+</html>
