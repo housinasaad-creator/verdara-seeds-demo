@@ -2,7 +2,7 @@
   Demo catalogue: invented varieties in 11 broad groups, built from the crop table in crops.js.
   Everything here is placeholder content for the concept demo (no real product claims).
 */
-import { ROWS } from './crops.js?v=10191741';
+import { ROWS } from './crops.js?v=10191757';
 
 export const LANGS = ['tr', 'en', 'fr', 'ar'];
 

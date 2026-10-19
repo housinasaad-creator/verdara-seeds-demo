@@ -1,6 +1,6 @@
 /* Shared state: current language, translation lookup, WhatsApp link. No imports from other app modules (avoids cycles). */
-import { BRAND } from './brand.js?v=10191741';
-import { T, LANGS, DIR, detectLang } from './i18n.js?v=10191741';
+import { BRAND } from './brand.js?v=10191757';
+import { T, LANGS, DIR, detectLang } from './i18n.js?v=10191757';
 
 export const V = { lang: detectLang() };
 export const t = (k) => (T[V.lang] && T[V.lang][k]) || T.en[k] || k;

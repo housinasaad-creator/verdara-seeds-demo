@@ -616,8 +616,8 @@ html{touch-action:pan-x pan-y}
 @media (max-width:1100px){
   .sec::before,.chead::before,.calhead::before,.ahero::before,.cta::before,.ftr::before,body:not([data-page=home]) main::before{display:none}
   .hdr,.btn.glass,.skipj,.rnav,.totop,.qd-bg{-webkit-backdrop-filter:none;backdrop-filter:none}
-  .hdr{background:rgba(246,241,227,.97)}
-  .hdr.over{background:rgba(11,18,13,.82)}
+  .hdr{background:#f6f1e3}
+  .hdr.over{background:#0b120d}
   .btn.glass{background:rgba(255,255,255,.22)}
   .skipj{background:rgba(24,28,26,.6)}
   .rnav{background:rgba(255,255,255,.72)}
@@ -630,3 +630,13 @@ html{touch-action:pan-x pan-y}
 }
 /* the loading shimmer stops once the picture is there (all screens) */
 .pic:has(img.ok){animation:none}
+
+/* hidden layers are really hidden (not just transparent), so nothing can show through or paint faintly in a corner */
+.ldm{visibility:hidden;transition:opacity .2s,transform .2s,visibility 0s linear .2s}
+.langdd.open .ldm{visibility:visible;transition-delay:0s}
+.mnav{visibility:hidden;transition:opacity .3s,transform .3s,visibility 0s linear .3s}
+.mnav.on{visibility:visible;transition-delay:0s}
+.ch{visibility:hidden;transition:opacity .55s ease,transform .7s cubic-bezier(.2,.7,.2,1),visibility 0s linear .7s}
+.ch.on{visibility:visible;transition-delay:0s}
+.no3d .ch{visibility:visible}
+.skip:not(:focus){clip-path:inset(50%);inset-block-start:-120px}

@@ -1,8 +1,8 @@
 /* About: counters (real numbers from the catalogue data) and a floating collage of crop emblems. */
-import { t } from './layout.js?v=10191741';
-import { CATS, PRODUCTS } from './data.js?v=10191741';
-import { LANGS } from './core.js?v=10191741';
-import { counters, art, reveal } from './motion.js?v=10191741';
+import { t } from './layout.js?v=10191757';
+import { CATS, PRODUCTS } from './data.js?v=10191757';
+import { LANGS } from './core.js?v=10191757';
+import { counters, art, reveal } from './motion.js?v=10191757';
 
 const stats = [[PRODUCTS.length, 'a.stat1'], [CATS.length, 'a.stat2'], [LANGS.length, 'a.stat3'], [3, 'a.stat4']];
 function build() {

@@ -2,7 +2,7 @@
   Mouse cursor: a small seed that leans as it moves and splits open to show a sprout whenever there is something to press.
   Only for mouse users (hover + fine pointer); touch screens keep their normal behaviour. One element, one transform per frame.
 */
-import { FINE, REDUCE } from './motion.js?v=10191741';
+import { FINE, REDUCE } from './motion.js?v=10191757';
 
 if (FINE) {
   const SEL = 'a, button, [role=button], summary, label, select, .chip, .pic, .cat, .rbtn, .dots i, [data-req], [data-openquote], .p3d canvas, .qd-bg, .fg button';
