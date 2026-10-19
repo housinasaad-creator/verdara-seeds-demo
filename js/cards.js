@@ -1,8 +1,8 @@
 /* Shared building blocks: product card, product label for the quote list, month bars, request-button handler. */
-import { V, t } from './core.js?v=10191757';
-import { CROPS, cropName, catName, catById, tagLabel, prodById, windows, typeLabel, maturity } from './data.js?v=10191757';
-import { Q, openQuote } from './quote.js?v=10191757';
-import { cropState, today, canCover, coverWindow } from './season.js?v=10191757';
+import { V, t } from './core.js?v=10191953';
+import { CROPS, cropName, catName, catById, tagLabel, prodById, windows, typeLabel, maturity } from './data.js?v=10191953';
+import { Q, openQuote } from './quote.js?v=10191953';
+import { cropState, today, canCover, coverWindow } from './season.js?v=10191953';
 
 export const productLabel = (p, lang = V.lang) => `${p.name}${p.type === 'F1' ? ' F1' : ''} (${cropName(p.crop, lang)}, ${p.code})`;
 

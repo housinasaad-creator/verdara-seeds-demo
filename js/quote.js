@@ -3,7 +3,7 @@
   appends its product name to that box automatically. Sent through WhatsApp: no prices, no payment.
   The draft survives page changes (localStorage) and is shared by the slide-over drawer and the quote page.
 */
-import { V, t, tl, waLink, applyI18n } from './core.js?v=10191757';
+import { V, t, tl, waLink, applyI18n } from './core.js?v=10191953';
 
 const KEY = 'vdr.q', FKEY = 'vdr.qf';
 const store = {
