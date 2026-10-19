@@ -2,11 +2,11 @@
   Shared chrome: header, mobile menu, footer, language switch (TR / EN / FR / AR, layout always left-to-right), floating quote button.
   Every page loads this first, then its own script. Event: window 'langchange'.
 */
-import { BRAND, markSVG } from './brand.js?v=10182307';
-import { V, t, tl, setLang, applyI18n, LANGS, waLink } from './core.js?v=10182307';
-import { mountFab, openQuote, WA_ICON, Q } from './quote.js?v=10182307';
-import { reveal, tilt, art, REDUCE } from './motion.js?v=10182307';
-import './cursor.js?v=10182307';
+import { BRAND, markSVG } from './brand.js?v=10191741';
+import { V, t, tl, setLang, applyI18n, LANGS, waLink } from './core.js?v=10191741';
+import { mountFab, openQuote, WA_ICON, Q } from './quote.js?v=10191741';
+import { reveal, tilt, art, REDUCE } from './motion.js?v=10191741';
+import './cursor.js?v=10191741';
 
 const PAGE = document.body.dataset.page || 'home';
 const NAV = [['home', 'index.html', 'nav.home'], ['catalog', 'catalog.html', 'nav.catalog'], ['calendar', 'calendar.html', 'nav.calendar'], ['about', 'about.html', 'nav.about']];

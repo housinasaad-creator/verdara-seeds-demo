@@ -611,3 +611,22 @@ html{touch-action:pan-x pan-y}
   .mnav{overflow-y:auto}
   .skipj{inset-inline-end:auto;inset-inline-start:var(--pad)}
 }
+
+/* phones and tablets: smoothness first. No blur filters, no decorative plant backdrops, no endless animations, no 3D card layers */
+@media (max-width:1100px){
+  .sec::before,.chead::before,.calhead::before,.ahero::before,.cta::before,.ftr::before,body:not([data-page=home]) main::before{display:none}
+  .hdr,.btn.glass,.skipj,.rnav,.totop,.qd-bg{-webkit-backdrop-filter:none;backdrop-filter:none}
+  .hdr{background:rgba(246,241,227,.97)}
+  .hdr.over{background:rgba(11,18,13,.82)}
+  .btn.glass{background:rgba(255,255,255,.22)}
+  .skipj{background:rgba(24,28,26,.6)}
+  .rnav{background:rgba(255,255,255,.72)}
+  .totop{background:rgba(255,255,255,.96)}
+  .qd-bg{background:rgba(7,12,9,.72)}
+  .pic{animation:none;transform:none;transition:none}
+  .bar.act{animation:none;filter:none}
+  .coll img{animation:none;filter:none}
+  .s-sow::before{animation:none}
+}
+/* the loading shimmer stops once the picture is there (all screens) */
+.pic:has(img.ok){animation:none}

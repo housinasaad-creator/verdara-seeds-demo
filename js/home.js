@@ -1,10 +1,10 @@
 /* Home: the scroll story (3D hero with load/unload), group tiles, this month's featured varieties, calendar teaser. */
-import { V, t } from './layout.js?v=10182307';
-import { CATS, CROPS, PRODUCTS, ZONES, SOW_SEASONS, cropName, catName } from './data.js?v=10182307';
-import { Hero, webglOK } from './gl/hero.js?v=10182307';
-import { reveal, tilt, art, unart, counters, REDUCE, clamp } from './motion.js?v=10182307';
-import { cardHTML, stateChip, monthBars, monthHeader, windowText } from './cards.js?v=10182307';
-import { today, getZone, setZone, setPreviewMonth, seasonOf, monthName, summary, featured } from './season.js?v=10182307';
+import { V, t } from './layout.js?v=10191741';
+import { CATS, CROPS, PRODUCTS, ZONES, SOW_SEASONS, cropName, catName } from './data.js?v=10191741';
+import { Hero, webglOK } from './gl/hero.js?v=10191741';
+import { reveal, tilt, art, unart, counters, REDUCE, clamp } from './motion.js?v=10191741';
+import { cardHTML, stateChip, monthBars, monthHeader, windowText } from './cards.js?v=10191741';
+import { today, getZone, setZone, setPreviewMonth, seasonOf, monthName, summary, featured } from './season.js?v=10191741';
 
 const $ = (s, r = document) => r.querySelector(s);
 const journey = $('#journey'), stage = $('#stage');

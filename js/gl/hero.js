@@ -91,7 +91,7 @@ const SEASONS = {
 export class Hero {
   constructor(canvas, stageEl, opts = {}) {
     this.canvas = canvas; this.stageEl = stageEl; this.mobile = !!opts.mobile; this.season = SEASONS[opts.season] ? opts.season : 'summer'; this.sp = SEASONS[this.season];
-    this.p = 0; this.pt = 0; this.time = 0; this.running = false; this.pointer = new THREE.Vector2(); this.ptS = new THREE.Vector2(); this._ft = [];
+    this.p = 0; this.pt = 0; this._up = -1; this._nf = 0; this.time = 0; this.running = false; this.pointer = new THREE.Vector2(); this.ptS = new THREE.Vector2(); this._ft = [];
     this.build();
   }
 
@@ -99,7 +99,7 @@ export class Hero {
     const { canvas, mobile } = this;
     const r = this.renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile, alpha: true, powerPreference: 'high-performance' });
     r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.05; r.outputColorSpace = THREE.SRGBColorSpace; r.setClearColor(0, 0);
-    this.dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.75);
+    this.dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : 1.75);
     this.scene = new THREE.Scene(); this.camera = new THREE.PerspectiveCamera(30, 1, 0.5, 400); this.scene.add(this.camera);
     this.disposables = [];
     this.buildEnv(); this.buildLights(); this.buildSoil(); this.buildHills(); this.buildGrass(); this.buildSeed(); this.buildRoots(); this.buildStem(); this.buildLeaves(); this.buildFruit(); this.buildParticles(); this.buildFall(); this.buildSun();
@@ -127,19 +127,20 @@ export class Hero {
   }
 
   buildSoil() {
-    const tex = this.track(canvasTexture(1536, 1024, (g, w, h) => {
+    const lite = this.mobile;
+    const tex = this.track(canvasTexture(lite ? 768 : 1536, lite ? 512 : 1024, (g, w, h) => {
       const bg = g.createLinearGradient(0, 0, 0, h); bg.addColorStop(0, '#3f2c1a'); bg.addColorStop(0.35, '#2a1d12'); bg.addColorStop(1, '#0c0806'); g.fillStyle = bg; g.fillRect(0, 0, w, h);
       for (let i = 0; i < 11; i++) { const y = (i + 0.5) / 11 * h, a = 0.05 + rnd() * 0.07; g.fillStyle = `rgba(${rnd() > 0.5 ? '120,86,50' : '20,12,6'},${a})`; g.beginPath(); g.moveTo(0, y); for (let x = 0; x <= w; x += 64) g.lineTo(x, y + Math.sin(x * 0.006 + i * 2) * 26 + (rnd() - 0.5) * 8); g.lineTo(w, y + 50 + rnd() * 40); g.lineTo(0, y + 60); g.closePath(); g.fill(); }
       for (let i = 0; i < 90; i++) { const x = rnd() * w, y = rnd() * h * 0.95 + 30, rx = 5 + rnd() * 20, ry = rx * (0.55 + rnd() * 0.3), gr = g.createRadialGradient(x - rx * 0.3, y - ry * 0.3, 1, x, y, rx); const base = 70 + Math.floor(rnd() * 70); gr.addColorStop(0, `rgb(${base + 40},${base + 20},${base})`); gr.addColorStop(1, `rgb(${base - 40},${base - 50},${base - 55})`); g.fillStyle = gr; g.beginPath(); g.ellipse(x, y, rx, ry, rnd() * 3, 0, 6.3); g.fill(); }
     }));
     tex.wrapS = THREE.RepeatWrapping; tex.repeat.set(1.4, 1);
-    const grain = this.track(canvasTexture(512, 512, (g, w, h) => {
+    const grain = lite ? null : this.track(canvasTexture(512, 512, (g, w, h) => {
       g.fillStyle = '#808080'; g.fillRect(0, 0, w, h);
       for (let i = 0; i < 5200; i++) { const v = 40 + Math.floor(rnd() * 190), a = 0.25 + rnd() * 0.6; g.fillStyle = `rgba(${v},${v},${v},${a})`; const r = 0.7 + rnd() * 2.2; g.beginPath(); g.arc(rnd() * w, rnd() * h, r, 0, 6.3); g.fill(); }
       for (let i = 0; i < 70; i++) { const x = rnd() * w, y = rnd() * h, r = 4 + rnd() * 9, gr = g.createRadialGradient(x - r * 0.3, y - r * 0.3, 1, x, y, r); gr.addColorStop(0, '#d8d8d8'); gr.addColorStop(1, '#505050'); g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, 6.3); g.fill(); }
     }, false));
-    grain.wrapS = grain.wrapT = THREE.RepeatWrapping; grain.repeat.set(34, 24);
-    const mat = this.track(new THREE.MeshStandardMaterial({ map: tex, bumpMap: grain, bumpScale: 2.6, roughness: 1, metalness: 0 }));
+    if (grain) { grain.wrapS = grain.wrapT = THREE.RepeatWrapping; grain.repeat.set(34, 24); }
+    const mat = this.track(lite ? new THREE.MeshLambertMaterial({ map: tex }) : new THREE.MeshStandardMaterial({ map: tex, bumpMap: grain, bumpScale: 2.6, roughness: 1, metalness: 0 }));
     this.soil = new THREE.Mesh(new THREE.PlaneGeometry(190, 130), mat); this.soil.position.set(0, -65, -3); this.scene.add(this.soil); this.track(this.soil.geometry);
   }
 
@@ -153,7 +154,7 @@ export class Hero {
 
   buildGrass() {
     const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array([-0.5, 0, 0, 0.5, 0, 0, 0, 1, 0]), 3));
-    const n = this.mobile ? 380 : 700, off = new Float32Array(n * 4);
+    const n = this.mobile ? 200 : 700, off = new Float32Array(n * 4);
     for (let i = 0; i < n; i++) { off[i * 4] = (rnd() - 0.5) * 150; off[i * 4 + 1] = -3 + rnd() * 7; off[i * 4 + 2] = 1.1 + rnd() * 2.8; off[i * 4 + 3] = rnd(); }
     const ig = new THREE.InstancedBufferGeometry(); ig.index = g.index; ig.setAttribute('position', g.attributes.position); ig.setAttribute('aOff', new THREE.InstancedBufferAttribute(off, 4)); ig.instanceCount = n;
     this.grassMat = new THREE.ShaderMaterial({
@@ -233,7 +234,7 @@ export class Hero {
   }
 
   buildParticles() {
-    const n = this.mobile ? 220 : 420, box = new THREE.Vector3(70, 60, 40), g = new THREE.BufferGeometry();
+    const n = this.mobile ? 90 : 420, box = new THREE.Vector3(70, 60, 40), g = new THREE.BufferGeometry();
     const a = new Float32Array(n * 3), s = new Float32Array(n), kind = new Float32Array(n);
     for (let i = 0; i < n; i++) { a[i * 3] = rnd() * box.x; a[i * 3 + 1] = rnd() * box.y; a[i * 3 + 2] = rnd() * box.z; s[i] = rnd(); kind[i] = rnd() > 0.45 ? 0 : 1; }
     g.setAttribute('position', new THREE.BufferAttribute(a, 3)); g.setAttribute('aSeed', new THREE.BufferAttribute(s, 1)); g.setAttribute('aKind', new THREE.BufferAttribute(kind, 1));
@@ -260,7 +261,7 @@ export class Hero {
 
   /* snow / petals / pollen / leaves, depending on the month: one cheap Points object that wraps around the camera */
   buildFall() {
-    const n = this.mobile ? 110 : 240, box = new THREE.Vector3(60, 50, 34), g = new THREE.BufferGeometry(), a = new Float32Array(n * 3), sd = new Float32Array(n);
+    const n = this.mobile ? 60 : 240, box = new THREE.Vector3(60, 50, 34), g = new THREE.BufferGeometry(), a = new Float32Array(n * 3), sd = new Float32Array(n);
     for (let i = 0; i < n; i++) { a[i * 3] = rnd() * box.x; a[i * 3 + 1] = rnd() * box.y; a[i * 3 + 2] = rnd() * box.z; sd[i] = rnd(); }
     g.setAttribute('position', new THREE.BufferAttribute(a, 3)); g.setAttribute('aSeed', new THREE.BufferAttribute(sd, 1));
     this.fallMat = new THREE.ShaderMaterial({
@@ -319,11 +320,11 @@ export class Hero {
     this.capL.visible = this.capR.visible = open > 0.02; this.embryo.visible = open > 0.02; this.embryo.scale.set(0.5 + open * 0.8, 0.8 + open * 1.2, 0.5 + open * 0.8);
     this.seed.position.y = this.seedY + Math.sin(this.time * 1.4) * 0.05 * (1 - open);
     this.seedMat.emissiveIntensity = 0.5 + 0.3 * Math.sin(this.time * 2.1) * (1 - open) + 0.4 * (1 - smooth(0.0, 0.3, p));
-    /* roots */
+    /* roots, stem, leaves, fruit: on phones only while the scroll position is still moving */
+    const g = stemG, moving = !this.mobile || Math.abs(p - this._up) > 1e-4; if (moving) { this._up = p;
     this.roots.forEach((r, i) => { const gk = i === 0 ? rootG : clamp((rootG - r.tb * 0.9) / 0.5); r.tube.update(smooth(0, 1, gk) * 1.0); });
     /* stem + leaves + fruit */
     this.stem.update(stemG * 0.999 + 0.0005);
-    const g = stemG;
     for (let k = 0; k < this.nLeaf; k++) {
       const L = this.leaves[k], s = smooth(L.t, L.t + 0.14, g); const pt = this.stem.at(Math.min(L.t, g));
       const unf = lerp(1.35, L.alpha, smooth(0, 1, s)), wob = Math.sin(this.time * 0.9 + L.wob) * 0.04 * s;
@@ -336,8 +337,9 @@ export class Hero {
     this.fruit.forEach(f => {
       const pt = this.stem.at(Math.min(f.t, g)), vis = fr > 0.01 && g > f.t; f.m.visible = vis; if (!vis) return;
       const s = f.size * smooth(0, 1, fr) * 1.05; f.m.scale.set(s, s * 0.9, s); f.m.position.set(pt.x + f.side * (0.9 + s * 0.7), pt.y - 1.1 - s * 0.6, pt.z + 0.3);
-      f.mat.color.setHex(0x7cbf4a).lerp(new THREE.Color(0xf0b030), smooth(0, 0.5, ripe)).lerp(new THREE.Color(0xd8322a), smooth(0.4, 1, ripe));
+      f.mat.color.setHex(0x7cbf4a).lerp(this._cY || (this._cY = new THREE.Color(0xf0b030)), smooth(0, 0.5, ripe)).lerp(this._cR || (this._cR = new THREE.Color(0xd8322a)), smooth(0.4, 1, ripe));
     });
+    }
     /* light, sky, hills, camera */
     const [top0, hor0] = sky(p), dayK = smooth(0.55, 0.95, p), sp = this.sp, tk = sp.sky[3] * dayK, tint = (c) => c.map((v, i) => lerp(v, sp.sky[i], tk)), top = tint(top0), hor = tint(hor0);
     this.stageEl.style.setProperty('--sky1', css(top)); this.stageEl.style.setProperty('--sky2', css(hor));
@@ -370,9 +372,15 @@ export class Hero {
       if (!this.running) return; this._raf = requestAnimationFrame(loop);
       const dt = Math.min(0.05, (now - this._last) / 1000); this._last = now;
       this.frame(dt); this.renderer.render(this.scene, this.camera);
-      this._ft.push(dt); if (this._ft.length >= 50) { const avg = this._ft.reduce((a, b) => a + b, 0) / this._ft.length; this._ft.length = 0; if (avg > 0.022 && this.dpr > 1) { this.dpr = Math.max(1, this.dpr - 0.25); this.resize(); } }
+      if (++this._nf > 24) this._ft.push(dt);
+      if (this._ft.length >= 40) { const avg = this._ft.reduce((a, b) => a + b, 0) / this._ft.length; this._ft.length = 0; if (avg > 0.024) { if (this.dpr > 1) { this.dpr = Math.max(1, this.dpr - 0.25); this.resize(); } else this.degrade(); } }
     };
     this._raf = requestAnimationFrame(loop);
+  }
+  /* last resort on a slow device: drop the decorative layers, keep the plant */
+  degrade() {
+    if (this._deg) return; this._deg = true;
+    this.dust.visible = false; this.fall.visible = false; this.grass.geometry.instanceCount = Math.floor(this.grass.geometry.instanceCount * 0.5);
   }
   stop() { this.running = false; cancelAnimationFrame(this._raf); }
 

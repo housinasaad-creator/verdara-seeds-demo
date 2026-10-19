@@ -2,9 +2,9 @@
   Motion + memory helpers: scroll reveals, counters, pointer tilt, and a lazy artwork lifecycle
   (packets and emblems are drawn only when near the viewport and their blob URLs are released when far away).
 */
-import { V } from './core.js?v=10182307';
-import { prodById } from './data.js?v=10182307';
-import { packetURL, releasePacket, releaseAllPackets, emblemURL } from './art.js?v=10182307';
+import { V } from './core.js?v=10191741';
+import { prodById } from './data.js?v=10191741';
+import { packetURL, releasePacket, releaseAllPackets, emblemURL } from './art.js?v=10191741';
 
 export const FINE = matchMedia('(hover:hover) and (pointer:fine)').matches;
 export const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;

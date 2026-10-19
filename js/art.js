@@ -2,8 +2,8 @@
   Procedural artwork: crop emblems (unit-space vector drawings) and seed packets, drawn on canvas.
   No image files: packets are generated lazily, turned into blob URLs and released when far from the viewport.
 */
-import { drawMark } from './brand.js?v=10182307';
-import { CROPS, catById, cropName, catName, packLabel } from './data.js?v=10182307';
+import { drawMark } from './brand.js?v=10191741';
+import { CROPS, catById, cropName, catName, packLabel } from './data.js?v=10191741';
 
 const TAU = Math.PI * 2;
 
