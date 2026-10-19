@@ -1,10 +1,10 @@
 /* Product page: light 3D packet, facts, sowing guide for the chosen climate zone, related varieties. */
-import { V, t, tl, waLink } from './layout.js?v=10191953';
-import { PRODUCTS, CROPS, ZONES, prodById, catById, catName, cropName, tagLabel, typeLabel, growLabel, packLabel, describe, maturity } from './data.js?v=10191953';
-import { reveal, tilt, art, unart, REDUCE } from './motion.js?v=10191953';
-import { cardHTML, productLabel, monthBars, monthHeader, windowText, stateChip } from './cards.js?v=10191953';
-import { getZone, setZone } from './season.js?v=10191953';
-import { buildMessage } from './quote.js?v=10191953';
+import { V, t, tl, waLink } from './layout.js?v=10192019';
+import { PRODUCTS, CROPS, ZONES, prodById, catById, catName, cropName, tagLabel, typeLabel, growLabel, packLabel, describe, maturity } from './data.js?v=10192019';
+import { reveal, tilt, art, unart, REDUCE } from './motion.js?v=10192019';
+import { cardHTML, productLabel, monthBars, monthHeader, windowText, stateChip } from './cards.js?v=10192019';
+import { getZone, setZone } from './season.js?v=10192019';
+import { buildMessage } from './quote.js?v=10192019';
 
 const id = new URLSearchParams(location.search).get('id');
 const known = prodById(id), p = known || PRODUCTS[0];
@@ -88,7 +88,7 @@ const gl = () => { try { const c = document.createElement('canvas'); return !!(c
 async function mount3D() {
   teardown();
   const box = document.getElementById('p3d'); if (!box || REDUCE || !gl()) return;
-  const mod = await import('./gl/packet3d.js?v=10191953');
+  const mod = await import('./gl/packet3d.js?v=10192019');
   if (!document.body.contains(box)) return;
   pk = new mod.Packet3D(box.querySelector('#pgl'), box, { mobile: innerWidth < 760 || (navigator.hardwareConcurrency || 8) <= 4 });
   await pk.setProduct(p, V.lang); box.classList.add('live');

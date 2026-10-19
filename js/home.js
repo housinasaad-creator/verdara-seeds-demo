@@ -1,10 +1,10 @@
 /* Home: the scroll story (3D hero with load/unload), group tiles, this month's featured varieties, calendar teaser. */
-import { V, t } from './layout.js?v=10191953';
-import { CATS, CROPS, PRODUCTS, ZONES, SOW_SEASONS, cropName, catName } from './data.js?v=10191953';
-import { Hero, webglOK } from './gl/hero.js?v=10191953';
-import { reveal, tilt, art, unart, counters, REDUCE, clamp } from './motion.js?v=10191953';
-import { cardHTML, stateChip, monthBars, monthHeader, windowText } from './cards.js?v=10191953';
-import { today, getZone, setZone, setPreviewMonth, seasonOf, monthName, summary, featured } from './season.js?v=10191953';
+import { V, t } from './layout.js?v=10192019';
+import { CATS, CROPS, PRODUCTS, ZONES, SOW_SEASONS, cropName, catName } from './data.js?v=10192019';
+import { Hero, webglOK } from './gl/hero.js?v=10192019';
+import { reveal, tilt, art, unart, counters, REDUCE, clamp } from './motion.js?v=10192019';
+import { cardHTML, stateChip, monthBars, monthHeader, windowText } from './cards.js?v=10192019';
+import { today, getZone, setZone, setPreviewMonth, seasonOf, monthName, summary, featured } from './season.js?v=10192019';
 
 const $ = (s, r = document) => r.querySelector(s);
 const journey = $('#journey'), stage = $('#stage');
@@ -38,7 +38,7 @@ function buildSeason() {
   const months = Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}" ${d.preview && d.month === i + 1 ? 'selected' : ''}>${monthName(i + 1, V.lang)}</option>`).join('');
   $('#sstrip').innerHTML = `
     <div class="sm"><span class="sk">${t('ss.k')}</span><b>${monthName(d.month, V.lang)}</b><span class="ssub">${t('se.' + season)} · ${zn[V.lang] || zn.en}${d.preview ? ` · <em>${t('ss.preview.note')}</em>` : ''}</span></div>
-    <div class="scs">${shown.map(([k, l]) => `<div class="sc s-${k}"><b data-count="${sm[k]}">0</b><span>${t(l)}</span></div>`).join('')}</div>
+    <div class="scs">${shown.map(([k, l]) => `<div class="scn s-${k}"><b data-count="${sm[k]}">0</b><span>${t(l)}</span></div>`).join('')}</div>
     <div class="sctl"><div class="chips" role="group" aria-label="${t('cal.zone')}">${ZONES.map(zz => `<button class="chip" type="button" data-zone="${zz.id}" aria-pressed="${zz.id === z}">${zz.n[V.lang] || zz.n.en}</button>`).join('')}</div>
       <label class="mprev"><span>${t('ss.preview')}</span><select class="fsel" id="mprev"><option value="0">${t('ss.today')}</option>${months}</select></label></div>`;
   $('#snote').textContent = t('ss.note');

@@ -493,10 +493,10 @@ html[lang=ar] .cn{max-width:none}
 .ssub{font:700 13.5px var(--sans);opacity:.82}
 .ssub em{font-style:normal;background:var(--amber);color:#1a1405;border-radius:99px;padding:2px 9px;font-size:11.5px}
 .scs{display:flex;gap:clamp(20px,3.2vw,48px);flex-wrap:wrap;position:relative;z-index:1}
-.sc b{display:block;font:600 clamp(38px,3.8vw,56px)/1 var(--serif);color:var(--amber2)}
-.sc span{display:block;font:700 12.5px/1.35 var(--sans);opacity:.86;max-width:17ch;margin-top:4px}
-.sc.s-cover b{color:#8fe3d6}.sc.s-harvest b{color:#ffd27a}.sc.s-soon b{color:#c3c3f2}
-.sc{background:none;color:inherit}
+.scn b{display:block;font:600 clamp(38px,3.8vw,56px)/1 var(--serif);color:var(--amber2)}
+.scn span{display:block;font:700 12.5px/1.35 var(--sans);opacity:.86;max-width:17ch;margin-top:4px}
+.scn.s-cover b{color:#8fe3d6}.scn.s-harvest b{color:#ffd27a}.scn.s-soon b{color:#c3c3f2}
+.scn{background:none;color:inherit}
 .sctl{display:grid;gap:12px;justify-items:start;position:relative;z-index:1}
 .sstrip .chip{border-color:rgba(255,255,255,.3);color:var(--paper)}
 .sstrip .chip:hover{border-color:#fff}

@@ -4,7 +4,7 @@
   on the site (featured varieties, badges, counters, calendar highlights, hero weather) is derived from these few functions,
   so on the 1st of every month the site changes by itself.
 */
-import { CROPS, PRODUCTS, ZONES, windows } from './data.js?v=10191953';
+import { CROPS, PRODUCTS, ZONES, windows } from './data.js?v=10192019';
 
 const ZKEY = 'vdr.zone', MKEY = 'vdr.month';
 const ls = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } } };
