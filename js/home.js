@@ -1,10 +1,10 @@
 /* Home: the scroll story (3D hero with load/unload), group tiles, this month's featured varieties, calendar teaser. */
-import { V, t } from './layout.js?v=10192019';
-import { CATS, CROPS, PRODUCTS, ZONES, SOW_SEASONS, cropName, catName } from './data.js?v=10192019';
-import { Hero, webglOK } from './gl/hero.js?v=10192019';
-import { reveal, tilt, art, unart, counters, REDUCE, clamp } from './motion.js?v=10192019';
-import { cardHTML, stateChip, monthBars, monthHeader, windowText } from './cards.js?v=10192019';
-import { today, getZone, setZone, setPreviewMonth, seasonOf, monthName, summary, featured } from './season.js?v=10192019';
+import { V, t } from './layout.js';
+import { CATS, CROPS, PRODUCTS, ZONES, SOW_SEASONS, cropName, catName } from './data.js';
+import { initHeroVideo } from './hero-video.js';   // (the live 3D hero import `{ Hero, webglOK } from './gl/hero.js'` is archived, see js/archive/home-story-3d.js)
+import { reveal, tilt, art, unart, counters, REDUCE, clamp } from './motion.js';
+import { cardHTML, stateChip, monthBars, monthHeader, windowText } from './cards.js';
+import { today, getZone, setZone, setPreviewMonth, seasonOf, monthName, summary, featured } from './season.js';
 
 const $ = (s, r = document) => r.querySelector(s);
 const journey = $('#journey'), stage = $('#stage');
@@ -80,92 +80,29 @@ window.addEventListener('langchange', () => { buildTiles(); buildSeason(); finde
 /* the month (or zone) changed: the featured list, counters, badges, calendar teaser and the hero weather follow */
 window.addEventListener('seasonchange', () => { buildSeason(); finder(); if (hero) hero.setSeason(seasonOf(today().month)); });
 
-/* ---------- the story ---------- */
+/* ---------- the story: the hero is a pre-rendered video played in four scroll steps (js/hero-video.js) ----------
+   The live 3D scene (three.js) is NOT used any more but is kept: js/archive/home-story-3d.js + js/gl/hero.js (see the note there). */
 const chs = [...document.querySelectorAll('.ch')], dots = [...document.querySelectorAll('#dots i')], hint = $('#hint');
-const CUT = [0, 0.26, 0.52, 0.78];
-let hero = null, p = 0, vis = false;
-
-function chapter(pp) { let i = 0; CUT.forEach((c, k) => { if (pp >= c) i = k; }); chs.forEach((c, k) => c.classList.toggle('on', k === i)); dots.forEach((d, k) => d.classList.toggle('on', k === i)); hint.classList.toggle('gone', pp > 0.04); }
-function progress() { const r = journey.offsetHeight - stage.offsetHeight, y = scrollY - journey.offsetTop; p = clamp(y / Math.max(1, r)); chapter(p); if (hero) hero.setProgress(p); }
+const STG = 5, CH_OF = [0, 1, 2, 3, 3];                  // five stops (start + four scrolls) over four text chapters
+let hero = null, p = 0;                                  // hero stays null: no live scene
+function chapter(pp) { const k = clamp(Math.round(pp * (STG - 1)), 0, STG - 1), i = CH_OF[k]; chs.forEach((c, j) => c.classList.toggle('on', j === i)); dots.forEach((d, j) => d.classList.toggle('on', j === i)); hint.classList.toggle('gone', pp > 0.04); }
+function progress() { const r = journey.offsetHeight - stage.offsetHeight, y = scrollY - journey.offsetTop; p = clamp(y / Math.max(1, r)); chapter(p); }
 addEventListener('scroll', progress, { passive: true }); addEventListener('resize', progress); progress();
 
-const ok = !REDUCE && webglOK();
-if (!ok) document.documentElement.classList.add('no3d');
-function mount() { if (hero || !ok) return; hero = new Hero($('#gl'), stage, { mobile: innerWidth < 760 || navigator.hardwareConcurrency <= 4, season: seasonOf(today().month) }); hero.setProgress(p); hero.p = p; hero.start(); stage.classList.add('live'); }
-function unmount() { if (!hero) return; hero.dispose(); hero = null; stage.classList.remove('live'); const old = $('#gl'), n = old.cloneNode(false); old.replaceWith(n); }
-/* mount shortly after load (idle), start/stop with visibility, release GPU memory when far away */
-const onIO = new IntersectionObserver(es => es.forEach(e => { vis = e.isIntersecting; if (vis) { if (!hero) mount(); else hero.start(); } else if (hero) hero.stop(); }), { rootMargin: '200px 0px' });
-const farIO = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) unmount(); }), { rootMargin: '1800px 0px' });
-const idle = window.requestIdleCallback || ((f) => setTimeout(f, 250));
-idle(() => { onIO.observe(journey); farIO.observe(journey); }, { timeout: 1200 });
-document.addEventListener('visibilitychange', () => { if (!hero) return; if (document.hidden) hero.stop(); else if (vis) hero.start(); });
-$('#skipj').addEventListener('click', () => scrollTo({ top: journey.offsetTop + journey.offsetHeight, behavior: 'smooth' }));
-/* ---------- four stages instead of a continuous scrub ----------
-   One wheel notch, swipe or key press moves exactly one stage (seed, roots, shoot, harvest). After the last stage the next scroll leaves the hero
-   normally; before the first one nothing is caught. Skip and the dots still work. Without WebGL / with reduced motion the page scrolls natively. */
-const STAGES = [0, 0.4, 0.66, 1];
-let animating = false, touching = false, rafId = 0, settleT = 0;
-const span = () => Math.max(1, journey.offsetHeight - stage.offsetHeight);
-const stageY = (k) => journey.offsetTop + span() * STAGES[k];
-const LAST = STAGES.length - 1;
-const nearest = () => { let b = 0, d = Infinity; STAGES.forEach((_, k) => { const dd = Math.abs(scrollY - stageY(k)); if (dd < d) { d = dd; b = k; } }); return b; };
-const stepOn = () => ok && !document.documentElement.classList.contains('noscroll');
-const inJourney = () => scrollY <= stageY(LAST) + 2;
-const canStep = (dir) => stepOn() && inJourney() && !(dir > 0 && scrollY >= stageY(LAST) - 2) && !(dir < 0 && scrollY <= journey.offsetTop + 2);
-function animateTo(y, ms) {
-  cancelAnimationFrame(rafId); const y0 = scrollY, t0 = performance.now(); animating = true;
-  const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-  const tick = (now) => { const k = Math.min(1, (now - t0) / ms); scrollTo({ top: y0 + (y - y0) * ease(k), behavior: 'instant' }); if (k < 1) rafId = requestAnimationFrame(tick); else animating = false; };
-  rafId = requestAnimationFrame(tick);
-}
-const go = (dir) => animateTo(stageY(clamp(nearest() + dir, 0, LAST)), 950);
-dots.forEach((d, k) => d.addEventListener('click', () => animateTo(stageY(k), 1100)));
-
-/* wheel (mouse notch or trackpad flick): one stage per gesture; the tail of a trackpad flick is ignored */
-let lastW = 0;
-function onWheel(e) {
-  if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-  const now = performance.now(), fresh = now - lastW > 110; lastW = now;
-  const dir = e.deltaY > 0 ? 1 : -1;
-  if (!canStep(dir)) return;
-  e.preventDefault();
-  if (!animating && fresh) go(dir);
-}
-let wheelOn = false;
-function wheelWatch() { const near = scrollY <= stageY(LAST) + 1200; if (near && !wheelOn) { addEventListener('wheel', onWheel, { passive: false }); wheelOn = true; } else if (!near && wheelOn) { removeEventListener('wheel', onWheel); wheelOn = false; } }
-
-/* touch: a swipe that starts on the hero moves one stage as soon as it is clearly vertical */
-let ty0 = 0, tx0 = 0, tState = '';
-journey.addEventListener('touchstart', (e) => { touching = true; if (e.touches.length !== 1) { tState = 'native'; return; } ty0 = e.touches[0].clientY; tx0 = e.touches[0].clientX; tState = stepOn() ? 'pending' : 'native'; }, { passive: true });
-journey.addEventListener('touchmove', (e) => {
-  if (tState === 'native' || e.touches.length !== 1) return;
-  if (tState === 'pending') {
-    const dy = e.touches[0].clientY - ty0, dx = e.touches[0].clientX - tx0;
-    if (Math.abs(dy) < 6 && Math.abs(dx) < 6) return;
-    const dir = dy < 0 ? 1 : -1;
-    if (Math.abs(dx) > Math.abs(dy) || !canStep(dir)) { tState = 'native'; return; }
-    tState = 'done'; if (e.cancelable) e.preventDefault(); if (!animating) go(dir); return;
-  }
-  if (e.cancelable) e.preventDefault();
-}, { passive: false });
-const touchEnd = () => { touching = false; tState = ''; };
-journey.addEventListener('touchend', touchEnd, { passive: true }); journey.addEventListener('touchcancel', touchEnd, { passive: true });
-
-/* keyboard */
-addEventListener('keydown', (e) => {
-  if (!stepOn() || e.altKey || e.ctrlKey || e.metaKey) return;
-  const tg = e.target || {}, tag = tg.tagName || '';
-  if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag) || tg.isContentEditable || (e.key === ' ' && /^(BUTTON|A)$/.test(tag))) return;
-  const fwd = e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey), back = e.key === 'ArrowUp' || e.key === 'PageUp' || (e.key === ' ' && e.shiftKey);
-  if (!fwd && !back) return;
-  const dir = fwd ? 1 : -1; if (!canStep(dir)) return;
-  e.preventDefault(); if (!animating) go(dir);
+if (REDUCE) document.documentElement.classList.add('no3d');
+const hv = initHeroVideo({
+  hero: journey, stick: stage, video: $('#hv'), hdr: () => 0, reduced: REDUCE, saveData: !!(navigator.connection && navigator.connection.saveData),
+  stops: [0, 3.2, 6.2, 9.4, 13.0], srcDesktop: 'assets/hero/hero-desktop.mp4', srcPhone: 'assets/hero/hero-phone.mp4', srcDesktopRev: 'assets/hero/hero-desktop-rev.mp4', srcPhoneRev: 'assets/hero/hero-phone-rev.mp4', mobileQuery: '(max-width: 760px)', rate: 2,
+  onFail: () => document.documentElement.classList.add('no3d')
 });
-
-/* if the page comes to rest between two stages (scroll bar drag, restored position), it settles on the nearest one */
-addEventListener('scroll', () => {
-  wheelWatch(); clearTimeout(settleT); if (animating) return;
-  settleT = setTimeout(() => { if (animating || touching || !stepOn() || !inJourney()) return; const y = stageY(nearest()); if (Math.abs(scrollY - y) > 3) animateTo(y, 500); }, 200);
-}, { passive: true });
-wheelWatch();
-window.__hero = () => hero;
+dots.forEach((d, k) => d.addEventListener('click', () => hv.jump(k)));
+/* the video loads once and stays (it only pauses off-screen); low-memory devices release it when far away */
+{
+  const lowMem = (navigator.deviceMemory || 8) <= 2, idle = window.requestIdleCallback || ((f) => setTimeout(f, 250));
+  idle(() => {
+    new IntersectionObserver(([e]) => { if (!e.isIntersecting) hv.pause(); }, { rootMargin: '200px 0px' }).observe(journey);
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) hv.load(); else if (lowMem) hv.unload(); }, { rootMargin: '250% 0px 250% 0px' }).observe(journey);
+  }, { timeout: 1200 });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) hv.pause(); });
+}
+$('#skipj').addEventListener('click', () => scrollTo({ top: journey.offsetTop + journey.offsetHeight, behavior: 'smooth' }));
