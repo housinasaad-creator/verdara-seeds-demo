@@ -99,7 +99,7 @@ export class Hero {
     const { canvas, mobile } = this;
     const r = this.renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile, alpha: true, powerPreference: 'high-performance' });
     r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.05; r.outputColorSpace = THREE.SRGBColorSpace; r.setClearColor(0, 0);
-    this.dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : 1.75);
+    this.dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.1 : 1.5);
     this.scene = new THREE.Scene(); this.camera = new THREE.PerspectiveCamera(30, 1, 0.5, 400); this.scene.add(this.camera);
     this.disposables = [];
     this.buildEnv(); this.buildLights(); this.buildSoil(); this.buildHills(); this.buildGrass(); this.buildSeed(); this.buildRoots(); this.buildStem(); this.buildLeaves(); this.buildFruit(); this.buildParticles(); this.buildFall(); this.buildSun();
@@ -154,7 +154,7 @@ export class Hero {
 
   buildGrass() {
     const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array([-0.5, 0, 0, 0.5, 0, 0, 0, 1, 0]), 3));
-    const n = this.mobile ? 200 : 700, off = new Float32Array(n * 4);
+    const n = this.mobile ? 140 : 480, off = new Float32Array(n * 4);
     for (let i = 0; i < n; i++) { off[i * 4] = (rnd() - 0.5) * 150; off[i * 4 + 1] = -3 + rnd() * 7; off[i * 4 + 2] = 1.1 + rnd() * 2.8; off[i * 4 + 3] = rnd(); }
     const ig = new THREE.InstancedBufferGeometry(); ig.index = g.index; ig.setAttribute('position', g.attributes.position); ig.setAttribute('aOff', new THREE.InstancedBufferAttribute(off, 4)); ig.instanceCount = n;
     this.grassMat = new THREE.ShaderMaterial({
@@ -234,7 +234,7 @@ export class Hero {
   }
 
   buildParticles() {
-    const n = this.mobile ? 90 : 420, box = new THREE.Vector3(70, 60, 40), g = new THREE.BufferGeometry();
+    const n = this.mobile ? 70 : 300, box = new THREE.Vector3(70, 60, 40), g = new THREE.BufferGeometry();
     const a = new Float32Array(n * 3), s = new Float32Array(n), kind = new Float32Array(n);
     for (let i = 0; i < n; i++) { a[i * 3] = rnd() * box.x; a[i * 3 + 1] = rnd() * box.y; a[i * 3 + 2] = rnd() * box.z; s[i] = rnd(); kind[i] = rnd() > 0.45 ? 0 : 1; }
     g.setAttribute('position', new THREE.BufferAttribute(a, 3)); g.setAttribute('aSeed', new THREE.BufferAttribute(s, 1)); g.setAttribute('aKind', new THREE.BufferAttribute(kind, 1));
@@ -261,7 +261,7 @@ export class Hero {
 
   /* snow / petals / pollen / leaves, depending on the month: one cheap Points object that wraps around the camera */
   buildFall() {
-    const n = this.mobile ? 60 : 240, box = new THREE.Vector3(60, 50, 34), g = new THREE.BufferGeometry(), a = new Float32Array(n * 3), sd = new Float32Array(n);
+    const n = this.mobile ? 50 : 180, box = new THREE.Vector3(60, 50, 34), g = new THREE.BufferGeometry(), a = new Float32Array(n * 3), sd = new Float32Array(n);
     for (let i = 0; i < n; i++) { a[i * 3] = rnd() * box.x; a[i * 3 + 1] = rnd() * box.y; a[i * 3 + 2] = rnd() * box.z; sd[i] = rnd(); }
     g.setAttribute('position', new THREE.BufferAttribute(a, 3)); g.setAttribute('aSeed', new THREE.BufferAttribute(sd, 1));
     this.fallMat = new THREE.ShaderMaterial({

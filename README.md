@@ -28,3 +28,6 @@ Static files only: `python -m http.server 4310` and open http://localhost:4310
 - Reduced-motion or no-WebGL visitors get a static layout.
 
 Built by MOHAMMED Web Studio.
+
+## Hero: live 3D again (2026-10-22)
+The hero is the live 3D scene again, a little lighter (lower resolution cap, fewer particles, simpler parts) and released from memory when far away. Devices with 4 cores or fewer, or 2 GB of RAM or less, skip the 3D hero: it becomes one still screen so the first scroll leaves it. Add `?hero=on` or `?hero=off` to force either way. The pre-rendered video version of the hero is kept in `_video_hero_version` (not deployed).

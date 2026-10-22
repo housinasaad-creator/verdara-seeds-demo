@@ -3,10 +3,10 @@
   Light on purpose: a single mesh pair, one instanced mesh, no post-processing. Renders only while visible; dispose() frees everything.
 */
 import * as THREE from 'three';
-import { drawPacket, fontsReady } from '../art.js?v=10192019';
-import { drawMark } from '../brand.js?v=10192019';
-import { catById, CROPS, describe } from '../data.js?v=10192019';
-import { tl } from '../core.js?v=10192019';
+import { drawPacket, fontsReady } from '../art.js';
+import { drawMark } from '../brand.js';
+import { catById, CROPS, describe } from '../data.js';
+import { tl } from '../core.js';
 
 const W = 2.7, H = 3.67;               // packet size (aspect 560:760)
 const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };

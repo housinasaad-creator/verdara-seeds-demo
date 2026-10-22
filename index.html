@@ -26,8 +26,7 @@
   <!-- ============ the seed story (scroll-driven 3D) ============ -->
   <section class="journey" id="journey" aria-label="VERDARA">
     <div class="stage" id="stage">
-      <picture class="hv-poster" id="hvPoster"><source media="(max-width: 760px)" srcset="assets/hero/poster-m.webp"><img src="assets/hero/poster.webp" width="1280" height="720" alt="" fetchpriority="high"></picture>
-      <video class="hv" id="hv" muted playsinline preload="none" disablepictureinpicture aria-hidden="true" tabindex="-1"></video>
+      <canvas id="gl" aria-hidden="true"></canvas>
       <div class="shade"></div>
       <div class="ch on" data-ch="0"><div class="k" data-i18n="j.c1.k"></div><h1 data-i18n="j.c1.t"></h1><p data-i18n="j.c1.p"></p></div>
       <div class="ch" data-ch="1"><div class="k" data-i18n="j.c2.k"></div><h2 data-i18n="j.c2.t"></h2><p data-i18n="j.c2.p"></p></div>
@@ -117,9 +116,6 @@
       <div class="acts"><button class="btn amber big" type="button" data-openquote data-i18n="h.cta.b1"></button><a class="btn glass big" href="catalog.html" data-i18n="h.cta.b2"></a></div>
     </div>
   </section>
-
-<!-- المشهد الثلاثي الأبعاد الحي (محفوظ، لا يُحذف): الكانفاس القديم للهيرو. الهيرو الآن فيديو. انظر js/archive/home-story-3d.js للتعليمات. -->
-<template id="scene3d-archive"><canvas id="gl" aria-hidden="true"></canvas></template>
 </main>
 
 <div id="ftr"></div>
