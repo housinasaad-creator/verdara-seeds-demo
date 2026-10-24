@@ -86,7 +86,7 @@ const chs = [...document.querySelectorAll('.ch')], dots = [...document.querySele
 const STG = 5, CH_OF = [0, 1, 2, 3, 3];                  // five stops (start + four scrolls) over four text chapters
 let hero = null, p = 0;                                  // hero stays null: no live scene
 function chapter(pp) { const k = clamp(Math.round(pp * (STG - 1)), 0, STG - 1), i = CH_OF[k]; chs.forEach((c, j) => c.classList.toggle('on', j === i)); dots.forEach((d, j) => d.classList.toggle('on', j === i)); hint.classList.toggle('gone', pp > 0.04); }
-function progress() { const r = journey.offsetHeight - stage.offsetHeight, y = scrollY - journey.offsetTop; p = clamp(y / Math.max(1, r)); chapter(p); }
+function progress() { if (journey.classList.contains('one')) { chapter(0); return; } const r = journey.offsetHeight - stage.offsetHeight, y = scrollY - journey.offsetTop; p = clamp(y / Math.max(1, r)); chapter(p); }
 addEventListener('scroll', progress, { passive: true }); addEventListener('resize', progress); progress();
 
 if (REDUCE) document.documentElement.classList.add('no3d');

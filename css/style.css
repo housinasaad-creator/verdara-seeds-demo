@@ -645,3 +645,8 @@ html{touch-action:pan-x pan-y}
 .ch.on{visibility:visible;transition-delay:0s}
 .no3d .ch{visibility:visible}
 .skip:not(:focus){clip-path:inset(50%);inset-block-start:-120px}
+
+/* الهيرو شاشة واحدة: الفيديو الدائر خلف العنوان الأول فقط (بلا قصة مثبّتة بالتمرير) */
+.journey.one { height: auto; }
+.journey.one .stage { position: relative; height: 100vh; height: 100svh; min-height: 560px; }
+.journey.one .ch[data-ch]:not([data-ch="0"]), .journey.one .dots, .journey.one .scrollhint, .journey.one .hint, .journey.one .skipj { display: none; }
